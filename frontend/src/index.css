@@ -1,0 +1,363 @@
+/* -------------------- Base Styles -------------------- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* -------------------- Layout Structure -------------------- */
+.app-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-top: 5px;
+  width: 400px;
+}
+
+/* -------------------- Header Styles -------------------- */
+.header {
+  font: 'Courier', monospace;
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  text-align: left;
+  padding: 10px 20px;
+  background-color: rgb(112, 155, 208);
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.header-title {
+  font: 'Courier', monospace;
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.sudokuTitle {
+  font: 'Courier', monospace;
+  margin: 0;
+  color: black;
+  font-size: 1.5rem;
+  text-align: left;
+  padding: 10px 20px;
+  font-weight: 400;
+  width: 100%;
+}
+
+/* -------------------- Sudoku Grid Styles -------------------- */
+.board-section {
+  flex: 0 0 auto;
+  margin-bottom: 20px;
+}
+
+.finalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  border: 4px solid #000000;
+  width: fit-content;
+  margin: 4px 20px 0 20px;
+  box-sizing: border-box;
+}
+
+.threeGrid {
+  display: grid;
+  border: 2px solid #7c7c7c;
+  box-sizing: border-box;
+}
+
+.cell, .non-editable-cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #7c7c7c;
+  font-size: 1.5rem;
+  outline: none;
+}
+
+.non-editable-cell {
+  background-color: #d2d2d2;
+}
+
+.cell:focus {
+  background-color: #ffdf8e;
+}
+
+.incorrect-cell {
+  background-color: #ffcccc !important;
+}
+
+/* -------------------- Control Buttons -------------------- */
+.board-controls-section {
+  margin: 0 0 0 40px;
+  display: flex;
+  justify-content: left;
+  width: 100%;
+}
+
+.clearBoardBtn, .checkSolutionBtn {
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clearBoardBtn {
+  background-color: #6a93cb;
+}
+
+.clearBoardBtn:hover {
+  background-color: #5a7daf;
+}
+
+.clearBoardBtn:active {
+  background-color: #4a6793;
+}
+
+.checkSolutionBtn {
+  background-color: #6ab376;
+  margin-left: 10px;
+}
+
+.checkSolutionBtn:hover {
+  background-color: #5a9965;
+}
+
+.checkSolutionBtn:active {
+  background-color: #4a7d54;
+}
+
+/* -------------------- Chat Styles -------------------- */
+.chatBox {
+  border: 1px solid #000000;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  margin: 0;
+}
+
+.chatLog {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #7c7c7c;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatLog div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.chatLog .message {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.chatLog .time {
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.chatInput {
+  display: flex;
+}
+
+.chatInput input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #7c7c7c;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  color: #000000;
+}
+
+/* -------------------- Player Styles -------------------- */
+.players-section {
+  margin-top: 20px;
+}
+
+.clientInfo {
+  font: 'Courier', monospace;
+  margin: 10px 0 10px 0;
+  font-size: 1rem;
+}
+
+.playerHeader {
+  font: 'Courier', monospace;
+  margin: 15px 0 5px 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.playerList {
+  margin-bottom: 10px;
+}
+
+.playerList ul {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.selection-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.puzzle-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.puzzle-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  background-color: #e8f0fe;
+}
+
+.puzzle-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.puzzle-meta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.difficulty, .status {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.difficulty {
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+
+.status {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu-button {
+  background-color: #6a93cb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+  background-color: #5a7daf;
+}
+
+.error-container {
+  max-width: 500px;
+  margin: 100px auto;
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.error-container h2 {
+  color: #e53935;
+  margin-bottom: 15px;
+}
+
+.error-container button {
+  margin-top: 20px;
+}
+
+
+.board-section.solved {
+  position: relative; /* Ensure the container is positioned relative to its children */
+}
+
+.board-section.solved::after {
+  content: ''; /* Create a pseudo-element for the green overlay */
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  width: 428px;
+  height: 412px;
+  background-color: rgba(0, 255, 60, 0.211); /* Light green with transparency */
+  z-index: 1; /* Ensure it appears above the board */
+  pointer-events: none; /* Allow interactions with the board */
+}
