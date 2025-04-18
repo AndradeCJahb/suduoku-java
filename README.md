@@ -13,39 +13,38 @@ A real-time collaborative Sudoku game where multiple players can solve puzzles t
 - ✅ Solution verification and error highlighting
 - 🎨 Unique player colors and auto-generated names
 
-## Table of Contents
-
-- Project Structure
-- Technologies
-- License
-
 ## Project Structure
 
 ```
-suduoku/
-├── backend/                    # Backend server code
-│   ├── server.js               # WebSocket server implementation
-│   └── sudokugames.db          # SQLite database
-├── frontend/                   # React frontend
-│   ├── public/                 # Static assets
-│   └── src/                    # Source code
-│       ├── index.js            # Main React application
-│       └── index.css           # Styles
-└── sudoku_conversion/          # Tools for puzzle conversion and import
-    ├── sudoku_sdx/             # Puzzle files in SDX format
-    └── sudoku_sdx_solutions/   # Solution files
+suduoku-java/
+├── backend-java/
+│   ├── src/ 
+│   │   └── main/java/suduoku
+│   │       ├── Board.java              
+│   │       ├── Player.java
+│   │       ├── SuduokuBackend.java
+│   │       └── WebSocketServer.java
+│   ├── pom.xml                         
+│   └── sudokugames.db                  
+├── frontend/                           # React frontend
+│   ├── public/                         
+│   │   ├── favicon.ico
+│   │   └── index.html
+│   └── src/
+│       ├── components/
+│       │   ├── Header.js
+│       │   ├── PuzzleSelection.js
+│       │   └── SudokuGame.js
+│       ├── index.js                    # Main React application
+│       └── index.css                   
+└── sudoku_scraper/                     
+    └── sudoku_scraper.py
 ```
 
 ## Technologies
 
 - **Frontend**: React.js, CSS
-- **Backend**: Node.js, WebSocket (ws), SQLite
-- **Database**: SQLite3
-- **Deployment**: Ngrok (for development sharing)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- **Backend**: Java, Maven, Python, SQLite
 
 ---
 

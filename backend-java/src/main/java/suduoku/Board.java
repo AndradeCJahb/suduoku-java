@@ -18,7 +18,7 @@ public class Board {
     private String difficulty;
     private Integer[][][] board;
     private Integer[][][] solution;
-
+    
     public Board(int puzzleId) {
         this.puzzleId = puzzleId;
         String query = "SELECT title, difficulty, sdx FROM puzzles WHERE id = ?";
