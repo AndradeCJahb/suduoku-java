@@ -419,11 +419,13 @@ code {
   }
 
   .cell, .non-editable-cell {
-    width: 30px;
-    height: 30px;
+    width: 8vw; /* Use viewport width for consistent sizing */
+    height: 8vw; /* Keep cells square */
+    max-width: 30px; /* Limit the maximum size */
+    max-height: 30px;
     text-align: center;
     border: 1px solid #7c7c7c;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     outline: none;
   }
 
