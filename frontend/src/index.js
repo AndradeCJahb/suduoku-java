@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import SudokuGame from './components/SudokuGame';
 import PuzzleSelection from './components/PuzzleSelection';
+import webSocketManager from './components/WebSocketManager';
+
+const wsUrl = 'ws://localhost:8080/ws';
+webSocketManager.connect(wsUrl); // Initialize WebSocket connection
 
 function App() {
   return (

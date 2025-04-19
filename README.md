@@ -17,9 +17,9 @@ A real-time collaborative Sudoku game where multiple players can solve puzzles t
 
 ```
 suduoku-java/
-├── backend-java/
+├── backend-java/                       # Maven backend
 │   ├── src/ 
-│   │   └── main/java/suduoku
+│   │   └── main/java/suduoku           
 │   │       ├── Board.java              
 │   │       ├── Player.java
 │   │       ├── SuduokuBackend.java

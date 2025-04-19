@@ -1,43 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import webSocketManager from './WebSocketManager';
 
 function PuzzleSelection() {
   const [puzzles, setPuzzles] = useState([]);
   const navigate = useNavigate();
-  const wsRef = useRef(null);
 
   useEffect(() => {
-    const wsUrl = 'ws://localhost:8080/ws';
-    wsRef.current = new WebSocket(wsUrl);
-
-    wsRef.current.onopen = () => {
-      console.log('Connected to WebSocket server');
-      wsRef.current.send(JSON.stringify({ type: 'fetchPuzzles' }));
-    };
-
-    wsRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('Received data from server:', data);
-
+    const handleMessage = (data) => {
       if (data.type === 'puzzles') {
         setPuzzles(data.puzzles);
       }
     };
-
-    wsRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    wsRef.current.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    // Cleanup WebSocket connection on component unmount
+  
+    webSocketManager.addListener(handleMessage);
+    webSocketManager.send({ type: 'fetchPuzzles' });
+  
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
+      webSocketManager.removeListener(handleMessage);
     };
   }, []);
 

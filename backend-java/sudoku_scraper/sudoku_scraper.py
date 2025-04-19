@@ -5,7 +5,7 @@ import requests
 import sqlite3
 
 # Database connection
-DB_URL = './backend-java/sudokugames.db'
+DB_URL = 'sudokugames.db'
 conn = sqlite3.connect(DB_URL)
 cursor = conn.cursor()
 

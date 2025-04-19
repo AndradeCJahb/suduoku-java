@@ -26,7 +26,7 @@ import jakarta.websocket.server.ServerEndpoint;
 public class WebSocketServer {
     private static final Map<UUID, Player> players = new ConcurrentHashMap<>();
     private static final Map<Integer, Board> boards = new ConcurrentHashMap<>();
-    private static final String DB_URL = "jdbc:sqlite:sudokugames.db";
+    private static final String DB_URL = "jdbc:sqlite:/app/sudokugames.db";
 
     @OnOpen
     public void onOpen(Session session) {
@@ -66,6 +66,9 @@ public class WebSocketServer {
                     break;
                 case "sendCheckSolution":
                     handleSendCheckSolution(jsonMessage);
+                    break;
+                case "sendLeaveRoom":
+                    handleSendLeaveRoom(jsonMessage);
                     break;
                 default:
                     System.out.println("Unknown request type: " + requestType);
@@ -157,7 +160,6 @@ public class WebSocketServer {
             JSONObject response = new JSONObject();
             response.put("type", "puzzles");
             response.put("puzzles", puzzles);
-
             session.getBasicRemote().sendText(response.toString());
         } catch (SQLException e) {
             System.err.println("Error fetching puzzles: " + e.getMessage());
@@ -205,10 +207,6 @@ public class WebSocketServer {
         
         if (!boards.containsKey(puzzleId)) {
             boards.put(puzzleId, new Board(puzzleId));
-        }
-
-        for(Player currPlayer : players.values()) {
-            System.out.println(currPlayer);
         }
 
         broadcastBoard(puzzleId);
@@ -429,5 +427,23 @@ public class WebSocketServer {
             }
         }
     }
+
+    private void handleSendLeaveRoom(JSONObject jsonMessage) {
+        Player player = players.get(UUID.fromString(jsonMessage.getString("clientId")));
+        if (player == null) {
+            return;
+        }
+        int puzzleId = jsonMessage.getInt("puzzleId");
+
+        player.setCurrentPuzzleId(-1);
+        player.setSelectedCol(-1);
+        player.setSelectedRow(-1);
+
+        if (puzzleId != -1) {
+            broadcastPlayerPosition(puzzleId);
+            broadcastPlayers(puzzleId);
+        }
+    }
+    
 }
 

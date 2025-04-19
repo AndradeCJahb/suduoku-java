@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Board {
-    private static final String DB_URL = "jdbc:sqlite:sudokugames.db";
+    private static final String DB_URL = "jdbc:sqlite:/app/sudokugames.db";
     private int puzzleId;
     private String title;
     private String difficulty;

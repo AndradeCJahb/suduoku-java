@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import '../index.css';
+import webSocketManager from './WebSocketManager';
 
-function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositions, wsRef, setFocusedCell }) {
-  const handleChange = (event) => {
+function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositions, setFocusedCell, clientId }) {  const handleChange = (event) => {
     const inputValue = event.target.value.slice(-1);
     if (/^[1-9]?$/.test(inputValue)) {
       onChange(inputValue);
@@ -14,13 +14,11 @@ function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositi
   // Send position to server and update focusedCell when cell is focused
   const handleFocus = () => {
     setFocusedCell({ row, col }); // Update the focusedCell state
-    if (wsRef && wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ 
-        type: 'sendPlayerPosition', 
-        position: { row, col },
-        clientId: clientId
-      }));
-    }
+    webSocketManager.send({
+      type: 'sendPlayerPosition',
+      position: { row, col },
+      clientId: clientId
+    });
   };
 
   // Determine the CSS class based on editable state and incorrect state
@@ -56,7 +54,7 @@ function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositi
   );
 }
 
-function ThreeGrid({ gridData, onCellChange, rowOffset, colOffset, incorrectCells, playerPositions, wsRef, setFocusedCell }) {
+function ThreeGrid({ gridData, onCellChange, rowOffset, colOffset, incorrectCells, playerPositions, setFocusedCell }) {
   const transposedGridData = Array.from({ length: 3 }, (_, i) =>
     Array.from({ length: 3 }, (_, j) => gridData[j][i])
   );
@@ -83,8 +81,8 @@ function ThreeGrid({ gridData, onCellChange, rowOffset, colOffset, incorrectCell
                 col={globalCol}
                 onChange={(value) => onCellChange(globalRow, globalCol, value)}
                 playerPositions={playerPositions}
-                wsRef={wsRef}
-                setFocusedCell={setFocusedCell} // Pass setFocusedCell
+                setFocusedCell={setFocusedCell}
+                clientId={clientId}
               />
             );
           })}
@@ -94,7 +92,7 @@ function ThreeGrid({ gridData, onCellChange, rowOffset, colOffset, incorrectCell
   );
 }
 
-function FinalGrid({ gridData, onCellChange, incorrectCells, playerPositions, wsRef, setFocusedCell }) {
+function FinalGrid({ gridData, onCellChange, incorrectCells, playerPositions, setFocusedCell }) {
   return (
     <div className="finalGrid">
       {Array.from({ length: 3 }, (_, gridRow) => (
@@ -110,8 +108,7 @@ function FinalGrid({ gridData, onCellChange, incorrectCells, playerPositions, ws
               colOffset={gridCol * 3}
               incorrectCells={incorrectCells}
               playerPositions={playerPositions}
-              wsRef={wsRef}
-              setFocusedCell={setFocusedCell} // Pass setFocusedCell
+              setFocusedCell={setFocusedCell}
             />
           ))}
         </div>
@@ -129,27 +126,19 @@ if (!clientId) {
 
 function SudokuGame() {
   const navigate = useNavigate();
-
   const { puzzleId: urlPuzzleId } = useParams();
   const [puzzleId] = useState(parseInt(urlPuzzleId) || null);
   const [puzzleTitle, setPuzzleTitle] = useState('Loading puzzle...');
   const [gridData, setGridData] = useState(Array(9).fill(Array(9).fill({ value: '', isEditable: true })));
-
   const [players, setPlayers] = useState([]);
   const [playerPositions, setPlayerPositions] = useState([]);
-
   const [focusedCell, setFocusedCell] = useState({ row: 5, col: 5 });
   const [clientInfo, setClientInfo] = useState({ name: '', color: '' });
-
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
-
   const [incorrectCells, setIncorrectCells] = useState([]);
   const [puzzleSolved, setPuzzleSolved] = useState(false);
-
-  const [connectionError, setConnectionError] = useState(false);
   const chatLogRef = useRef(null);
-  const ws = useRef(null);
 
   useEffect(() => {
     // Scroll to the bottom of the chat log whenever messages are updated
@@ -161,41 +150,24 @@ function SudokuGame() {
   useEffect(() => {
     const wsUrl = 'ws://localhost:8080/ws';
     console.log(`Connecting to WebSocket at ${wsUrl}`);
-    
-    ws.current = new WebSocket(wsUrl);
+    webSocketManager.connect(wsUrl);
 
-    ws.current.onopen = () => {
-      console.log(`Connected to WebSocket at ${wsUrl}`);
-      setConnectionError(false);  
-      ws.current.send(JSON.stringify({ type: 'fetchIdentity', clientId: clientId}));
-      ws.current.send(JSON.stringify({ type: 'fetchPuzzle', clientId: clientId, puzzleId: puzzleId }));
-      ws.current.send(JSON.stringify({ type: 'fetchChat' , puzzleId: puzzleId }));
-    };
-
-    ws.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setConnectionError(true);
-    };
-
-    ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      
+    const handleMessage = (data) => {
       if (data.type === 'updatePuzzle') {
-        // Update the grid with the new state from the server
         const updatedGrid = Array.from({ length: 9 }, (_, rowIndex) =>
           Array.from({ length: 9 }, (_, colIndex) => ({
             value: data.board[colIndex][rowIndex].value, // Swap row and column indices
             isEditable: data.board[colIndex][rowIndex].isEditable, // Swap row and column indices
           }))
         );
-        setGridData(updatedGrid); // Set the grid data in row-major order
-        setPuzzleTitle(data.title); // Update the puzzle title
+        setGridData(updatedGrid);
+        setPuzzleTitle(data.title);
       } else if (data.type === 'updatePlayers') {
-        setPlayers(data.players); // Update the list of connected players 
+        setPlayers(data.players);
       } else if (data.type === 'updateIdentity') {
         setClientInfo(data.client);
       } else if (data.type === 'updateChat') {
-        setChatMessages(data.messages); // Load chat history
+        setChatMessages(data.messages);
       } else if (data.type === 'updatePuzzleSolved') {
         setPuzzleSolved(true);
       } else if (data.type === 'updateIncorrectCells') {
@@ -207,28 +179,34 @@ function SudokuGame() {
         navigate('/');
       }
     };
-
-    ws.current.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-
+  
+    webSocketManager.addListener(handleMessage);
+  
+    // Send initial messages
+    webSocketManager.send({ type: 'fetchIdentity', clientId });
+    webSocketManager.send({ type: 'fetchPuzzle', clientId, puzzleId });
+    webSocketManager.send({ type: 'fetchChat', puzzleId });
+  
     return () => {
-      if (ws.current) {
-        ws.current.close();
-      }
+      webSocketManager.removeListener(handleMessage);
+      webSocketManager.send({ 
+        type: 'sendLeaveRoom', 
+        clientId: clientId,
+        puzzleId: puzzleId
+      });
     };
   }, [puzzleId, navigate]);
 
   const sendChatMessage = () => {
-    if (chatInput.trim() !== '' && ws.current && ws.current.readyState === WebSocket.OPEN) {
+    if (chatInput.trim() !== '') {
       const message = {
         user: clientInfo.name,
         color: clientInfo.color,
         text: chatInput,
         puzzleId: puzzleId,
       };
-      
-      ws.current.send(JSON.stringify({ type: 'sendChat', message }));
+
+      webSocketManager.send({ type: 'sendChat', message });
       setChatInput('');
     }
   };
@@ -278,16 +256,13 @@ function SudokuGame() {
   }, [focusedCell]);
   
   const handleCheckSolution = () => {
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(JSON.stringify({ 
-        type: 'sendCheckSolution',
-        puzzleId: puzzleId
-      }));
-    }
+    webSocketManager.send({
+      type: 'sendCheckSolution',
+      puzzleId: puzzleId,
+    });
   };
 
   const handleCellChange = (row, col, value) => {
-    // Update the local grid
     const newGrid = gridData.map((r, rowIndex) =>
       r.map((cell, colIndex) =>
         rowIndex === row && colIndex === col
@@ -296,22 +271,20 @@ function SudokuGame() {
       )
     );
   
-    // Update local state
     setGridData(newGrid);
-    setPuzzleSolved(false); // Reset puzzleSolved state when a cell is changed
+    setPuzzleSolved(false);
+
+    setIncorrectCells((prev) =>
+      prev.filter((cell) => !(cell.row === col && cell.col === row))
+    );
   
-    // Immediately remove this cell from incorrectCells locally for better user experience
-    setIncorrectCells(prev => prev.filter(cell => !(cell.row === row && cell.col === col)));
-  
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(JSON.stringify({ 
-        type: 'sendCellChange', 
-        puzzleId: puzzleId,
-        row: col,
-        col: row,
-        value: value | 0,
-      }));
-    }
+    webSocketManager.send({
+      type: 'sendCellChange',
+      puzzleId: puzzleId,
+      row: col,
+      col: row,
+      value: value || 0,
+    });
   };
 
   const handleClearBoard = () => {
@@ -326,34 +299,13 @@ function SudokuGame() {
     // Update local state
     setGridData(clearedGrid);
     setIncorrectCells([]);
+    setPuzzleSolved(false);
     
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      // Notify the server to clear the board
-      ws.current.send(JSON.stringify({ 
-        type: 'sendClearBoard',
-        puzzleId: puzzleId
-      }));
-    }
+    webSocketManager.send({
+      type: 'sendClearBoard',
+      puzzleId: puzzleId,
+    });
   };
-
-  const handleReturnToMenu = () => {
-    navigate('/');
-  };
-
-  if (connectionError) {
-    return (
-      <div>
-        <Header />
-        <div className="error-container">
-          <h2>Connection Error</h2>
-          <p>Unable to connect to the game server. Please try again later.</p>
-          <button className="menu-button" onClick={handleReturnToMenu}>
-            Return to Puzzle Selection
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -363,14 +315,13 @@ function SudokuGame() {
       <div className="app-container">
         <div className="left-section">
         <div className={`board-section ${puzzleSolved ? 'solved' : ''}`}>
-          <FinalGrid 
-            gridData={gridData} 
-            onCellChange={handleCellChange}
-            incorrectCells={incorrectCells}
-            playerPositions={playerPositions}
-            wsRef={ws} 
-            setFocusedCell={setFocusedCell} // Pass setFocusedCell
-          />
+        <FinalGrid
+          gridData={gridData}
+          onCellChange={handleCellChange}
+          incorrectCells={incorrectCells}
+          playerPositions={playerPositions}
+          setFocusedCell={setFocusedCell}
+        />
         </div>
           
           <div className="board-controls-section">
