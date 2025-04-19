@@ -311,35 +311,37 @@ function SudokuGame() {
     <div>
       <Header />
       <div className="sudokuTitle">{puzzleTitle}</div>
-      
+  
       <div className="app-container">
+        {/* Left Section: Sudoku Board */}
         <div className="left-section">
-        <div className={`board-section ${puzzleSolved ? 'solved' : ''}`}>
-        <FinalGrid
-          gridData={gridData}
-          onCellChange={handleCellChange}
-          incorrectCells={incorrectCells}
-          playerPositions={playerPositions}
-          setFocusedCell={setFocusedCell}
-        />
-        </div>
-          
+          <div className={`board-section ${puzzleSolved ? 'solved' : ''}`}>
+            <FinalGrid
+              gridData={gridData}
+              onCellChange={handleCellChange}
+              incorrectCells={incorrectCells}
+              playerPositions={playerPositions}
+              setFocusedCell={setFocusedCell}
+            />
+          </div>
+  
           <div className="board-controls-section">
-            <button 
-              className="clearBoardBtn" 
+            <button
+              className="clearBoardBtn"
               onClick={handleClearBoard}
             >
               Clear Board
             </button>
-            <button 
-              className="checkSolutionBtn" 
+            <button
+              className="checkSolutionBtn"
               onClick={handleCheckSolution}
             >
               Check Solution
             </button>
           </div>
         </div>
-        
+  
+        {/* Right Section: Chat and Players */}
         <div className="right-section">
           <div className="chatBox">
             <div className="chatLog" ref={chatLogRef}>
@@ -357,7 +359,7 @@ function SudokuGame() {
                 </div>
               ))}
             </div>
-
+  
             <div className="chatInput">
               <input
                 type="text"
@@ -372,15 +374,15 @@ function SudokuGame() {
               />
             </div>
           </div>
-          
+  
           <div className="players-section">
             <div className="clientInfo">
               <span>You are:</span>
               <span style={{ color: clientInfo.color }}> {clientInfo.name}</span>
             </div>
-
+  
             <h3 className="playerHeader">Connected Players:</h3>
-
+  
             <div className="playerList">
               <ul>
                 {players.map((player, index) => (

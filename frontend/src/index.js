@@ -6,7 +6,7 @@ import SudokuGame from './components/SudokuGame';
 import PuzzleSelection from './components/PuzzleSelection';
 import webSocketManager from './components/WebSocketManager';
 
-const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+const wsUrl = process.env.REACT_APP_WS_URL || 'wss://suduoku-java.onrender.com/ws';
 webSocketManager.connect(wsUrl);
 
 function App() {
