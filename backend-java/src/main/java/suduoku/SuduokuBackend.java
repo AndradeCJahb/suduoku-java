@@ -7,7 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 public class SuduokuBackend {
     public static void main(String[] args) {
-        Server server = new Server("localhost", 8080, "/", null, WebSocketServer.class);
+        String port = System.getenv("PORT");
+        int serverPort = (port != null) ? Integer.parseInt(port) : 8080; // Default to 8080 if PORT is not set
+        Server server = new Server("0.0.0.0", serverPort, "/", null, WebSocketServer.class);
  
         try {
             server.start();          
