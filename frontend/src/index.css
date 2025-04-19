@@ -6,6 +6,8 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  box-sizing: border-box; 
 }
 
 code {
@@ -21,8 +23,6 @@ code {
   max-width: 100%;
   margin: 0 auto;
 }
-
-
 
 .left-section {
   display: flex;
@@ -48,17 +48,20 @@ code {
   padding: 10px 20px;
   background-color: rgb(112, 155, 208);
   width: 100%;
+  box-sizing: border-box;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  box-sizing: border-box; 
 }
 
 .header-logo {
   height: 30px;
   width: 30px;
   margin-right: 10px;
+  box-sizing: border-box; 
 }
 
 .header-title {
@@ -67,6 +70,7 @@ code {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+  box-sizing: border-box; 
 }
 
 .sudokuTitle {
@@ -78,6 +82,7 @@ code {
   padding: 10px 20px;
   font-weight: 400;
   width: 100%;
+  box-sizing: border-box; 
 }
 
 /* -------------------- Sudoku Grid Styles -------------------- */
@@ -365,39 +370,132 @@ code {
   pointer-events: none; /* Allow interactions with the board */
 }
 
-/* Mobile layout */
 @media (max-width: 920px) {
   .app-container {
     flex-direction: column; /* Switch to vertical layout */
     align-items: center; /* Center align items */
   }
 
+  .board-controls-section {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   .clearBoardBtn, .checkSolutionBtn {
     width: 164px; /* Full width buttons for mobile */
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .chatLog {
     height: 100px;
     overflow-y: auto;
     border: 1px solid #7c7c7c;
-    padding: 5px;
-    margin-bottom: 10px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    max-width: 100%;
   }  
   
   .chatBox {
     border: 4px solid #000000;
     padding: 10px;
-    width: 310px;
+    width: 100%;
     border-radius: 10px;
-    margin-left: 21px;
+    box-sizing: border-box;
   }
 
   .players-section {
     margin-top: 0px;
+    max-width: 90%;
+    box-sizing: border-box;
+  }
+
+  .playerHeader {
+    font: 'Courier', monospace;
+    margin-left: 20px;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  
+  .playerList {
+    margin-bottom: 10px;
+    margin-left: 20px;
+  }
+
+  .clientInfo {
+    font: 'Courier', monospace;
+    margin-left: 20px;
+    margin-top: 15px;
+  }
+
+
+  .sudokuTitle {
+    font: 'Courier', monospace;
+    color: black;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 400;
+    padding-left: 0;
+  }
+
+  .right-section {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    box-sizing: border-box;
+    align-self: left;
+    margin: 0 0 0 3px;
+  }
+}
+
+
+/* Mobile layout */
+@media (max-width: 400px) {
+  .app-container {
+    flex-direction: column; /* Switch to vertical layout */
+    align-items: center; /* Center align items */
+  }
+
+  .board-controls-section {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .clearBoardBtn, .checkSolutionBtn {
+    width: 164px; /* Full width buttons for mobile */
+    margin-bottom: 19px;
+  }
+
+  .chatLog {
+    height: 100px;
+    overflow-y: auto;
+    border: 1px solid #7c7c7c;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 100%;
+  }  
+  
+  .chatBox {
+    border: 4px solid #000000;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+
+  .players-section {
+    margin-top: 0px;
+    max-width: 90%;
+    box-sizing: border-box;
   }
 
   .playerHeader {
@@ -419,14 +517,15 @@ code {
   }
 
   .cell, .non-editable-cell {
-    width: 8vw; /* Use viewport width for consistent sizing */
-    height: 8vw; /* Keep cells square */
-    max-width: 30px; /* Limit the maximum size */
-    max-height: 30px;
+    width: 17px;
+    height: 25px;
+
     text-align: center;
     border: 1px solid #7c7c7c;
     font-size: 1.1rem;
     outline: none;
+    border-radius: 0;
+    
   }
 
   .sudokuTitle {
@@ -437,5 +536,13 @@ code {
     font-weight: 400;
     padding-left: 0;
   }
-  
+
+  .right-section {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    box-sizing: border-box;
+    align-self: left;
+    margin: 0 0 0 3px;
+  }
 }

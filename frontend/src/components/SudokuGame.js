@@ -50,6 +50,7 @@ function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositi
       style={playerHighlights}
       data-row={row}
       data-col={col}
+      inputMode="numeric" 
     />
   );
 }
@@ -120,9 +121,17 @@ function FinalGrid({ gridData, onCellChange, incorrectCells, playerPositions, se
 // Check if a client ID exists in localStorage
 let clientId = localStorage.getItem('clientId');
 if (!clientId) {
-  clientId = crypto.randomUUID();
+  clientId = generateUUID();
   localStorage.setItem('clientId', clientId);
 }
+
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c === 'x' ? r : ((r & 0x3) | 0x8);
+    return v.toString(16);
+  });
+}
+
 
 function SudokuGame() {
   const navigate = useNavigate();
