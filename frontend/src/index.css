@@ -98,7 +98,7 @@ code {
 
 .threeGrid {
   display: grid;
-  border: 2px solid #7c7c7c;
+  border: 1px solid #7c7c7c;
   box-sizing: border-box;
 }
 
@@ -373,7 +373,7 @@ code {
   }
 
   .clearBoardBtn, .checkSolutionBtn {
-    width: 209px; /* Full width buttons for mobile */
+    width: 164px; /* Full width buttons for mobile */
     margin-bottom: 15px;
   }
 
@@ -391,9 +391,9 @@ code {
   .chatBox {
     border: 4px solid #000000;
     padding: 10px;
-    width: 400px;
+    width: 310px;
     border-radius: 10px;
-    margin-left: -24px;
+    margin-left: 21px;
   }
 
   .players-section {
@@ -402,20 +402,38 @@ code {
 
   .playerHeader {
     font: 'Courier', monospace;
-    margin-left: -20px;
+    margin-left: 20px;
     font-size: 1.2rem;
     font-weight: 400;
   }
   
   .playerList {
     margin-bottom: 10px;
-    margin-left: -20px;
+    margin-left: 20px;
   }
 
   .clientInfo {
     font: 'Courier', monospace;
-    margin-left: -20px;
+    margin-left: 20px;
     margin-top: 15px;
   }
 
+  .cell, .non-editable-cell {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #7c7c7c;
+    font-size: 1.5rem;
+    outline: none;
+  }
+
+  .sudokuTitle {
+    font: 'Courier', monospace;
+    color: black;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 400;
+    padding-left: 0;
+  }
+  
 }
