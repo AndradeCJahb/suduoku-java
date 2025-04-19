@@ -207,6 +207,10 @@ public class WebSocketServer {
             boards.put(puzzleId, new Board(puzzleId));
         }
 
+        for(Player currPlayer : players.values()) {
+            System.out.println(currPlayer);
+        }
+
         broadcastBoard(puzzleId);
         broadcastPlayerPosition(puzzleId);
         broadcastPlayers(puzzleId);
