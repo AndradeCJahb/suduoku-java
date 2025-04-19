@@ -6,8 +6,8 @@ import SudokuGame from './components/SudokuGame';
 import PuzzleSelection from './components/PuzzleSelection';
 import webSocketManager from './components/WebSocketManager';
 
-const wsUrl = 'ws://localhost:8080/ws';
-webSocketManager.connect(wsUrl); // Initialize WebSocket connection
+const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+webSocketManager.connect(wsUrl);
 
 function App() {
   return (
