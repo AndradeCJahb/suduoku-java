@@ -5,15 +5,19 @@ import webSocketManager from './WebSocketManager';
 
 function PuzzleSelection() {
   const [puzzles, setPuzzles] = useState([]);
+  const [allPuzzles, setAllPuzzles] = useState([]); // Store all puzzles for client-side filtering
   const navigate = useNavigate();
+  const [searchFilter, setSearchFilter] = useState('');
+  const [difficultyFilter, setDifficultyFilter] = useState(''); 
 
   useEffect(() => {
     const handleMessage = (data) => {
       if (data.type === 'puzzles') {
         setPuzzles(data.puzzles);
+        setAllPuzzles(data.puzzles); // Store all puzzles for filtering
       }
     };
-  
+    
     webSocketManager.addListener(handleMessage);
     webSocketManager.send({ type: 'fetchPuzzles' });
   
@@ -26,10 +30,62 @@ function PuzzleSelection() {
     navigate(`/puzzle/${puzzleId}`);
   };
 
+  useEffect(() => {
+    let filteredResults = [...allPuzzles];
+    
+    // Apply difficulty filter
+    if (difficultyFilter) {
+      filteredResults = filteredResults.filter(
+        puzzle => puzzle.difficulty && puzzle.difficulty.toLowerCase() === difficultyFilter.toLowerCase()
+      );
+    }
+    
+    // Apply search filter
+    if (searchFilter) {
+      const searchLower = searchFilter.toLowerCase();
+      filteredResults = filteredResults.filter(
+        puzzle => puzzle.title && puzzle.title.toLowerCase().includes(searchLower)
+      );
+    }
+    
+    setPuzzles(filteredResults);
+  }, [difficultyFilter, searchFilter, allPuzzles]);
+
+  const resetFilters = () => {
+    setDifficultyFilter('');
+    setSearchFilter('');
+  };
+  
   return (
     <div>
       <Header />
+      
+      <div className = "filter-container">
+        <div className="filter-options">
+          <span className="filter-difficulty-button" onClick={() => setDifficultyFilter("easy")}>Easy</span>
+          <span className="filter-difficulty-button" onClick={() => setDifficultyFilter("medium")}>Medium</span>
+          <span className="filter-difficulty-button" onClick={() => setDifficultyFilter("hard")}>Hard</span>
+          
+          <div className="filter-search">
+            <input
+              type="text"
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  
+                }
+              }}
+              placeholder="Search"
+            />
+          </div>
+
+          <span className="filter-difficulty-button" onClick={resetFilters}>x</span>
+        </div>
+      </div>
+
       <div className="container">
+      
         <div className="puzzle-grid">
           {puzzles.map((puzzle) => (
             <div

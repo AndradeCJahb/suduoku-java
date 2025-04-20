@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +17,12 @@ public class Board {
     private String difficulty;
     private Integer[][][] board;
     private Integer[][][] solution;
+    private ArrayList<int[]> incorrectCells;
     
     public Board(int puzzleId) {
         this.puzzleId = puzzleId;
+        this.incorrectCells = new ArrayList<int[]>();
+
         String query = "SELECT title, difficulty, sdx FROM puzzles WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -146,8 +148,7 @@ public class Board {
         }
     }
 
-    public List<int[]> getIncorrectCells() {
-        List<int[]> incorrectCells = new ArrayList<>();
+    public void updateIncorrectCells() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if(board[i][j][0] != null){
@@ -157,7 +158,28 @@ public class Board {
                 }
             }
         }
-        return incorrectCells;
+    }
+
+    public void setIncorrectCells(ArrayList<int[]> incorrectCells) {
+        this.incorrectCells = incorrectCells;
+    }
+
+    public ArrayList<int[]> getIncorrectCells() {
+        return this.incorrectCells;
+    }
+
+    public void clearIncorrectCells() {
+        this.incorrectCells.clear();
+    }
+
+    public void incorrectCellsChange(int row, int col) {
+        for (int i = 0; i < incorrectCells.size(); i++) {
+            int[] cell = incorrectCells.get(i);
+            if (cell[0] == row && cell[1] == col) {
+                incorrectCells.remove(i);
+                return;
+            }
+        }
     }
 
     public boolean isSolved() {

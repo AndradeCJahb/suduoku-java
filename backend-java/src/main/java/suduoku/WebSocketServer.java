@@ -56,7 +56,7 @@ public class WebSocketServer {
                     handleSendChat(jsonMessage);
                     break;
                 case "sendPlayerPosition":
-                    handleSendPlayerPosition(jsonMessage);
+                    handleSendPlayerPosition(session, jsonMessage);
                     break;
                 case "sendCellChange":
                     handleSendCellChange(jsonMessage);
@@ -69,6 +69,9 @@ public class WebSocketServer {
                     break;
                 case "sendLeaveRoom":
                     handleSendLeaveRoom(jsonMessage);
+                    break;
+                case "sendIncorrectCellsUpdate":
+                    handleSendIncorrectCellsChange(jsonMessage);
                     break;
                 default:
                     System.out.println("Unknown request type: " + requestType);
@@ -210,6 +213,7 @@ public class WebSocketServer {
         }
 
         broadcastBoard(puzzleId);
+        broadcastIncorrectCells(puzzleId);
         broadcastPlayerPosition(puzzleId);
         broadcastPlayers(puzzleId);
     }
@@ -307,9 +311,14 @@ public class WebSocketServer {
         return playersInPuzzle;
     }
 
-    private void handleSendPlayerPosition(JSONObject jsonMessage) {
+    private void handleSendPlayerPosition(Session session, JSONObject jsonMessage) {
         UUID clientId = UUID.fromString(jsonMessage.getString("clientId"));
         Player player = players.get(clientId);
+
+        if (player == null) {
+            handleIdentity(session, jsonMessage);
+            player = players.get(clientId);
+        }
         
         JSONObject position = jsonMessage.getJSONObject("position");
         int row = position.getInt("row");
@@ -374,19 +383,22 @@ public class WebSocketServer {
         int puzzleId = jsonMessage.getInt("puzzleId");
         Board board = boards.get(puzzleId);
         board.clearBoard();
+        board.clearIncorrectCells();
 
-        broadcastIncorrectCells(new ArrayList<int[]>(), puzzleId);
+        broadcastIncorrectCells(puzzleId);
         broadcastBoard(puzzleId);
     }
 
     private void handleSendCheckSolution(JSONObject jsonMessage) {
         int puzzleId = jsonMessage.getInt("puzzleId");
         Board board = boards.get(puzzleId);
-        broadcastIncorrectCells(board.getIncorrectCells(), puzzleId);
+        board.updateIncorrectCells();
+        broadcastIncorrectCells(puzzleId);
     }
 
-    private void broadcastIncorrectCells(List<int[]> incorrectCells, int puzzleId) {
+    private void broadcastIncorrectCells(int puzzleId) {
         JSONArray incorrectCellsJson = new JSONArray();
+        ArrayList<int[]> incorrectCells = boards.get(puzzleId).getIncorrectCells();
         for (int[] cell : incorrectCells) {
             JSONObject cellJson = new JSONObject();
             cellJson.put("row", cell[0]);
@@ -444,6 +456,15 @@ public class WebSocketServer {
             broadcastPlayers(puzzleId);
         }
     }
-    
+
+    private void handleSendIncorrectCellsChange(JSONObject jsonMessage) {
+        int puzzleId = jsonMessage.getInt("puzzleId");
+        Board board = boards.get(puzzleId);
+        int row = jsonMessage.getInt("row");
+        int col = jsonMessage.getInt("col");
+
+        board.incorrectCellsChange(row, col);
+        broadcastIncorrectCells(puzzleId);
+    }
 }
 

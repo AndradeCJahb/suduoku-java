@@ -17,7 +17,8 @@ function Cell({ value, isEditable, onChange, isIncorrect, row, col, playerPositi
     webSocketManager.send({
       type: 'sendPlayerPosition',
       position: { row, col },
-      clientId: clientId
+      clientId: clientId,
+      
     });
   };
 
@@ -283,9 +284,12 @@ function SudokuGame() {
     setGridData(newGrid);
     setPuzzleSolved(false);
 
-    setIncorrectCells((prev) =>
-      prev.filter((cell) => !(cell.row === col && cell.col === row))
-    );
+    webSocketManager.send({
+      type: 'sendIncorrectCellsUpdate',
+      puzzleId: puzzleId,
+      row: col,
+      col: row,
+    });
   
     webSocketManager.send({
       type: 'sendCellChange',

@@ -20,7 +20,7 @@ code {
   flex-direction: row; /* Horizontal layout */
   align-items: flex-start;
   max-width: 100%;
-  margin: 0 auto;
+  justify-content: center;
 }
 
 .left-section {
@@ -32,7 +32,7 @@ code {
   flex-direction: column;
   margin-left: 20px;
   margin-top: 5px;
-  width: 400px;
+  width: 464px;
 }
 
 /* -------------------- Header Styles -------------------- */
@@ -95,10 +95,12 @@ code {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .header-info:hover {
-  background-color: #dddddd;/* Optional: add hover effect */
+  background-color: #e8f0fe;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .info-popup {
@@ -120,7 +122,7 @@ code {
   padding-left: 20px;
   padding-bottom: 20px;
   padding-right: 20px;
-  border-radius: 10px;
+  border-radius: 3px;
   max-width: 40%;
   overflow-y: auto;
   position: relative;
@@ -161,9 +163,78 @@ code {
   color: black;
   font-size: 1.5rem;
   text-align: left;
-  padding: 10px 20px;
   font-weight: bold;
+  text-align: center;
+  padding-top: 6px;
+  padding-bottom: 5px;
 }
+
+/* -------------------- Puzzle Filter Syltes -------------------- */
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+.filter-options {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.filter-difficulty-button {
+  font: 'Courier', monospace;
+  color: black;
+  font-size: 1rem;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 3px;
+  margin-right: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s; 
+}
+
+.filter-difficulty-button:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  background-color: #e8f0fe;
+}
+
+.filter-search {
+  font: 'Courier', monospace;
+  width: 100%;
+  margin-right: 40px;
+}
+
+.filter-search input {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.filter-search input::placeholder {
+  color: #aaaaaa;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* -------------------- Sudoku Grid Styles -------------------- */
 .board-section {
@@ -218,7 +289,7 @@ code {
   border: none;
   padding: 8px 16px;
   font-size: 1rem;
-  border-radius: 10px;
+  border-radius: 3px;
   margin-right: 10px;
 
   cursor: pointer;
@@ -350,7 +421,7 @@ code {
 
 .puzzle-card {
   background-color: #f5f5f5;
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   cursor: pointer;
@@ -359,7 +430,6 @@ code {
 }
 
 .puzzle-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   background-color: #e8f0fe;
 }
@@ -377,7 +447,7 @@ code {
 
 .difficulty, .status {
   padding: 3px 8px;
-  border-radius: 12px;
+  border-radius: 3px;
   font-size: 0.8rem;
 }
 
@@ -404,7 +474,7 @@ code {
   border: none;
   padding: 8px 16px;
   font-size: 0.9rem;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -419,7 +489,7 @@ code {
   text-align: center;
   padding: 20px;
   background-color: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 3px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
@@ -473,7 +543,7 @@ code {
     height: 100px;
     overflow-y: auto;
     border: 1px solid #7c7c7c;
-    border-radius: 5px;
+    border-radius: 3px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -484,7 +554,7 @@ code {
     border: 4px solid #000000;
     padding: 10px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 3px;
     box-sizing: border-box;
   }
 
@@ -551,7 +621,7 @@ code {
     height: 100px;
     overflow-y: auto;
     border: 1px solid #7c7c7c;
-    border-radius: 5px;
+    border-radius: 3px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -563,7 +633,7 @@ code {
     padding: 10px;
     width: 100%;
     height: 165px;
-    border-radius: 10px;
+    border-radius: 3px;
     box-sizing: border-box;
   }
 
@@ -605,6 +675,7 @@ code {
 
   .sudokuTitle {
     text-align: center;
+    margin-left: 0px;
   }
 
   .right-section {
@@ -620,4 +691,20 @@ code {
     max-width: 75%;
   }
   
+  .filter-container {
+    justify-content: left;
+    margin-left: 20px;
+  }
+  
+  .filter-options {
+    width: 100%;
+  }
+
+  .filter-difficulty-button {
+    font-size: .7rem;
+  }
+
+  .filter-search input {
+    font-size: .7rem;
+  }
 }

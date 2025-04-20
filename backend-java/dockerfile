@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn package -DskipTests
 
 # Use an official OpenJDK runtime image to run the application
 FROM eclipse-temurin:24-jre-alpine
@@ -24,7 +24,6 @@ COPY --from=build /app/target/backend-java-1.0.jar app.jar
 
 # Copy the Python script and SQLite database into the container
 COPY sudoku_scraper/sudoku_scraper.py sudoku_scraper/sudoku_scraper.py
-
 COPY sudokugames.db sudokugames.db
 
 # Expose the port your application runs on
