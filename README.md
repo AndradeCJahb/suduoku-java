@@ -17,8 +17,8 @@ Hosted at https://suduoku.vercel.app/.
 
 ## Browser Compatibility
 
-- ✅ Chrome (recommended)
 - ✅ Firefox
+- ✅ Chrome 
 - ✅ Safari
 
 ## Contributing
@@ -32,7 +32,7 @@ Hosted at https://suduoku.vercel.app/.
 
     - Docker v28.0.4, build b8034c0 used
     - Apache Maven v3.9.9 w/ java 21 used
-    - npm 10.9.2 used
+    - npm v10.9.2 used
 
 
 
