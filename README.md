@@ -4,7 +4,7 @@ A real-time collaborative Sudoku game where multiple players can solve puzzles t
 
 Hosted at https://suduoku.vercel.app/.
 
-![Suduoku Logo](./frontend/public/favicon.ico)
+<img src="./frontend/public/favicon.ico" alt="Suduoku Logo" width="64" height="64">
 
 ## Features
 
@@ -23,7 +23,6 @@ Hosted at https://suduoku.vercel.app/.
 
 ## Contributing
 
-
 ### Getting Started
 
 1. Install `mvn`, `docker`, `npm`
@@ -33,8 +32,6 @@ Hosted at https://suduoku.vercel.app/.
     - Docker v28.0.4, build b8034c0 used
     - Apache Maven v3.9.9 w/ java 21 used
     - npm v10.9.2 used
-
-
 
 3. Clone repository and build using docker
 
@@ -47,7 +44,6 @@ Hosted at https://suduoku.vercel.app/.
 4. Begin local Docker Host
 
     -   `docker run -p 8080:8080 suduoku-backend`
-
 
 5. Navigate to `frontend/` and install dependencies
 
