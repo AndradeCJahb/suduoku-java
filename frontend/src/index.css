@@ -6,7 +6,6 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
   box-sizing: border-box; 
 }
 
@@ -25,13 +24,11 @@ code {
 }
 
 .left-section {
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .right-section {
-  display: flex;
   flex-direction: column;
   margin-left: 20px;
   margin-top: 5px;
@@ -41,27 +38,25 @@ code {
 /* -------------------- Header Styles -------------------- */
 .header {
   font: 'Courier', monospace;
-  margin: 0;
   color: white;
   font-size: 1.5rem;
   text-align: left;
-  padding: 10px 20px;
+  padding: 15px 10px 15px 20px;
   background-color: rgb(112, 155, 208);
-  width: 100%;
   box-sizing: border-box;
 }
 
 .header-content {
   display: flex;
   align-items: center;
-  box-sizing: border-box; 
+  justify-content: space-between; 
 }
 
+
 .header-logo {
-  height: 30px;
-  width: 30px;
-  margin-right: 10px;
-  box-sizing: border-box; 
+  height: 32px;
+  width: 32px;
+  margin-right: 15px;
 }
 
 .header-title {
@@ -70,24 +65,108 @@ code {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  transition: color 0.2s;
+}
+
+.header-title:hover {
+  color: #dddddd; 
+}
+
+.header-title:hover .header-title-duo {
+  color: #ddbd6c; 
+}
+
+.header-title-duo {
+  color: #ffdf8e;
+  transition: color 0.2s;
+}
+
+.header-info {
+  font: 'Courier', monospace;
+  font-size: 1rem;
+  color: rgb(112, 155, 208);
+  margin-right: 20px;
+  border:#ffffff 1px solid;
+  background-color: #ffffff;
+  border-radius: 100px;
+  padding-left: 8.5px;
+  padding-right: 8.5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.header-info:hover {
+  background-color: #dddddd;/* Optional: add hover effect */
+}
+
+.info-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.popup-content {
+  color: #000000;
+  background-color: white;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
+  max-width: 40%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-title {
+  font: 'Courier', monospace;
+  color: black;
+  font-size: 1.5rem;
+  text-align: left;
+  font-weight: bold;
+}
+
+.info-text {
+  font: 'Courier', monospace;
+  color: black;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.close-popup {
+  color: #000;
+  position: absolute;
+  top: 12px;
+  right: 23px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-popup:hover {
+  color: #555555;
 }
 
 .sudokuTitle {
   font: 'Courier', monospace;
-  margin: 0;
   color: black;
   font-size: 1.5rem;
   text-align: left;
   padding: 10px 20px;
-  font-weight: 400;
-  width: 100%;
-  box-sizing: border-box; 
+  font-weight: bold;
 }
 
 /* -------------------- Sudoku Grid Styles -------------------- */
 .board-section {
-  flex: 0 0 auto;
   margin-bottom: 20px;
 }
 
@@ -96,15 +175,13 @@ code {
   grid-template-columns: repeat(3, auto);
   grid-template-rows: repeat(3, auto);
   border: 4px solid #000000;
-  width: fit-content;
   margin: 4px 20px 0 20px;
-  box-sizing: border-box;
+  border-radius: 3px;
 }
 
 .threeGrid {
   display: grid;
   border: 1px solid #7c7c7c;
-  box-sizing: border-box;
 }
 
 .cell, .non-editable-cell {
@@ -130,7 +207,7 @@ code {
 
 /* -------------------- Control Buttons -------------------- */
 .board-controls-section {
-  margin: 0 0 0 40px;
+  margin: 0 0 0 20px;
   display: flex;
   justify-content: left;
   width: 100%;
@@ -142,6 +219,8 @@ code {
   padding: 8px 16px;
   font-size: 1rem;
   border-radius: 10px;
+  margin-right: 10px;
+
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -176,19 +255,19 @@ code {
   border: 4px solid #000000;
   padding: 10px;
   width: 401px;
-  border-radius: 10px;
   margin: 0;
+  border-radius: 3px;
 }
 
 .chatLog {
-  height: 329px;
+  height: 327px;
   overflow-y: auto;
   border: 1px solid #7c7c7c;
   padding: 5px;
   margin-bottom: 10px;
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
+  border-radius: 3px;
 }
 
 .chatLog div {
@@ -219,7 +298,7 @@ code {
   flex: 1;
   padding: 5px;
   border: 1px solid #7c7c7c;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #e7e7e7;
   color: #000000;
 }
@@ -435,12 +514,7 @@ code {
 
 
   .sudokuTitle {
-    font: 'Courier', monospace;
-    color: black;
-    font-size: 1.5rem;
     text-align: center;
-    font-weight: 400;
-    padding-left: 0;
   }
 
   .right-section {
@@ -469,7 +543,7 @@ code {
   }
 
   .clearBoardBtn, .checkSolutionBtn {
-    width: 164px; /* Full width buttons for mobile */
+    width: 162px; /* Full width buttons for mobile */
     margin-bottom: 19px;
   }
 
@@ -488,6 +562,7 @@ code {
     border: 4px solid #000000;
     padding: 10px;
     width: 100%;
+    height: 165px;
     border-radius: 10px;
     box-sizing: border-box;
   }
@@ -529,20 +604,20 @@ code {
   }
 
   .sudokuTitle {
-    font: 'Courier', monospace;
-    color: black;
-    font-size: 1.5rem;
     text-align: center;
-    font-weight: 400;
-    padding-left: 0;
   }
 
   .right-section {
     display: flex;
     flex-direction: column;
-    width: 88%;
+    width: 89%;
     box-sizing: border-box;
     align-self: left;
     margin: 0 0 0 3px;
   }
+
+  .popup-content {
+    max-width: 75%;
+  }
+  
 }

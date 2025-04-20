@@ -322,7 +322,6 @@ function SudokuGame() {
       <div className="sudokuTitle">{puzzleTitle}</div>
   
       <div className="app-container">
-        {/* Left Section: Sudoku Board */}
         <div className="left-section">
           <div className={`board-section ${puzzleSolved ? 'solved' : ''}`}>
             <FinalGrid

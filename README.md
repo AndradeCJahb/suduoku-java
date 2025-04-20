@@ -2,6 +2,8 @@
 
 A real-time collaborative Sudoku game where multiple players can solve puzzles together.
 
+Hosted at https://suduoku.vercel.app/.
+
 ![Suduoku Logo](./frontend/public/favicon.ico)
 
 ## Features
@@ -13,7 +15,49 @@ A real-time collaborative Sudoku game where multiple players can solve puzzles t
 - ✅ Solution verification and error highlighting
 - 🎨 Unique player colors and auto-generated names
 
-## Project Structure
+## Browser Compatibility
+
+- ✅ Chrome (recommended)
+- ✅ Firefox
+- ✅ Safari
+
+## Contributing
+
+
+### Getting Started
+
+1. Install `mvn`, `docker`, `npm`
+
+2. Run each with `-v` to ensure install
+
+    - Docker v28.0.4, build b8034c0 used
+    - Apache Maven v3.9.9 w/ java 21 used
+    - npm 10.9.2 used
+
+
+
+3. Clone repository and build using docker
+
+    -   `git clone https://github.com/AndradeCJahb/suduoku-java.git`
+
+    -   `cd backend-java`
+
+    -   `docker build -t suduoku-backend .`
+
+4. Begin local Docker Host
+
+    -   `docker run -p 8080:8080 suduoku-backend`
+
+
+5. Navigate to `frontend/` and install dependencies
+
+    -   `cd ../frontend`
+
+    -   `npm install`
+
+6. Run frontend server `npm start`
+
+### Project Structure
 
 ```
 suduoku-java/
@@ -35,16 +79,20 @@ suduoku-java/
 │       │   ├── Header.js
 │       │   ├── PuzzleSelection.js
 │       │   └── SudokuGame.js
-│       ├── index.js                    # Main React application
+│       ├── index.js
 │       └── index.css                   
-└── sudoku_scraper/                     
+└── sudoku_scraper/                     # Python to get new NYT sudoku puzzles
     └── sudoku_scraper.py
 ```
 
 ## Technologies
 
 - **Frontend**: React.js, CSS
-- **Backend**: Java, Maven, Python, SQLite
+- **Backend**: Java, Maven, Python, SQLite, Docker
+
+## License
+
+[MIT License](LICENSE)
 
 ---
 
