@@ -29,7 +29,7 @@ Hosted at https://suduoku.vercel.app/.
 
 2. Run each with `-v` to ensure install
 
-    - Docker v28.0.4, build b8034c0 used
+    - Docker v28.0.4 used
     - Apache Maven v3.9.9 w/ java 21 used
     - npm v10.9.2 used
 

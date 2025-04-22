@@ -10,11 +10,14 @@ function PuzzleSelection() {
   const [searchFilter, setSearchFilter] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState(''); 
 
+  const [loadedPuzzles, setLoadedPuzzles] = useState(false); 
+
   useEffect(() => {
     const handleMessage = (data) => {
       if (data.type === 'puzzles') {
         setPuzzles(data.puzzles);
         setAllPuzzles(data.puzzles); // Store all puzzles for filtering
+        setLoadedPuzzles(true); // Set loadedPuzzles to true when puzzles are received
       }
     };
     
@@ -71,11 +74,6 @@ function PuzzleSelection() {
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  
-                }
-              }}
               placeholder="Search"
             />
           </div>
@@ -85,22 +83,34 @@ function PuzzleSelection() {
       </div>
 
       <div className="container">
-      
-        <div className="puzzle-grid">
-          {puzzles.map((puzzle) => (
-            <div
-              key={puzzle.id}
-              className="puzzle-card"
-              onClick={() => handlePuzzleSelect(puzzle.id)}
-            >
-              <h3>{puzzle.title}</h3>
-              <div className="puzzle-meta">
-                <span className="difficulty">{puzzle.difficulty || 'Medium'}</span>
-                <span className="status">{puzzle.status || 'New'}</span>
-              </div>
+        {!loadedPuzzles ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p className="loading-message">Loading puzzles...</p>
             </div>
-          ))}
-        </div>
+          ) : (
+            <div className="puzzle-grid">
+            {puzzles.map((puzzle) => (
+              <div
+                key={puzzle.id}
+                className="puzzle-card"
+                onClick={() => handlePuzzleSelect(puzzle.id)}
+              >
+                <h3>{puzzle.title}</h3>
+                <div className="puzzle-meta">
+                  <span className="difficulty">{puzzle.difficulty || 'Medium'}</span>
+                  <span className="status">{puzzle.status || 'New'}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+
+
+
+
+        
       </div>
     </div>
   );

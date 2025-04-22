@@ -323,11 +323,19 @@ function SudokuGame() {
   return (
     <div>
       <Header />
+      
+      <div className="solved-popup" style={{ display: puzzleSolved ? 'block' : 'none' }}>
+        <div className="solved-popup-content">
+          <h2>Congratulations!</h2>
+          <p>You have solved the puzzle!</p>
+          <button onClick={() => setPuzzleSolved(false)}>Close</button>
+        </div>
+      </div>
+
       <div className="sudokuTitle">{puzzleTitle}</div>
-  
       <div className="app-container">
         <div className="left-section">
-          <div className={`board-section ${puzzleSolved ? 'solved' : ''}`}>
+          <div className={`board-section`}>
             <FinalGrid
               gridData={gridData}
               onCellChange={handleCellChange}
