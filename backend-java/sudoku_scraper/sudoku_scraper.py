@@ -6,7 +6,7 @@ import sqlite3
 
 # Database connection
 
-# DB_URLS = './backend-java/sudokugames.db' #  use for local testing
+# DB_URL = './backend-java/sudokugames.db' #  use for local testing
 DB_URL = 'sudokugames.db' # use for prod
 conn = sqlite3.connect(DB_URL)
 cursor = conn.cursor()

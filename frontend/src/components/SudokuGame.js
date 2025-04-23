@@ -324,11 +324,11 @@ function SudokuGame() {
     <div>
       <Header />
       
-      <div className="solved-popup" style={{ display: puzzleSolved ? 'block' : 'none' }}>
+      <div className="solved-popup" style={{ display: puzzleSolved ? 'flex' : 'none' }}>
         <div className="solved-popup-content">
-          <h2>Congratulations!</h2>
-          <p>You have solved the puzzle!</p>
-          <button onClick={() => setPuzzleSolved(false)}>Close</button>
+          <span className="close-solved" onClick={() => setPuzzleSolved(false)}>&times;</span>
+          <h2 className="solved-title">Puzzle Solved!</h2>
+          <p className="solved-text">Congratulations! You've successfully completed the puzzle.</p>
         </div>
       </div>
 
