@@ -17,23 +17,46 @@ code {
 /* Default layout for larger screens */
 .app-container {
   display: flex;
-  flex-direction: row; /* Horizontal layout */
-  align-items: flex-start;
-  max-width: 100%;
+  flex-direction: row;
   justify-content: center;
 }
 
 .left-section {
-  flex-direction: column;
-  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+  min-width: fit-content;  
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.controls-container {
+  margin-top: 42px;
+  border: 4px solid #000000;
+  margin-right: 20px;
+  border-radius: 3px;
+  order: 1;
+  height: fit-content;
+  box-sizing: border-box; /* Add this to include border in width/height calculations */
+  min-width: 296px; /* Let it size to content */
+}
+
+.sudoku-container {
+  order: 2;
 }
 
 .right-section {
+  display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  min-width: fit-content;  
+
+  width: 20%;
+  margin-top: 42px;
+  margin-right: 20px;
   margin-left: 20px;
-  margin-top: 5px;
-  width: 464px;
 }
+
+
 
 /* -------------------- Header Styles -------------------- */
 .header {
@@ -222,8 +245,7 @@ code {
   text-align: left;
   font-weight: bold;
   text-align: center;
-  padding-top: 6px;
-  padding-bottom: 5px;
+  margin: 5px;
 }
 
 /* -------------------- Puzzle Filter Syltes -------------------- */
@@ -279,31 +301,14 @@ code {
   color: #aaaaaa;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* -------------------- Sudoku Grid Styles -------------------- */
-.board-section {
-  margin-bottom: 20px;
-}
+
 
 .finalGrid {
   display: grid;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: repeat(3, auto);
   border: 4px solid #000000;
-  margin: 4px 20px 0 20px;
   border-radius: 3px;
 }
 
@@ -335,64 +340,54 @@ code {
 
 /* -------------------- Control Buttons -------------------- */
 .board-controls-section {
-  margin: 0 0 0 20px;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   width: 100%;
 }
 
 .clearBoardBtn, .checkSolutionBtn {
-  color: white;
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  font-weight: bold;
   border: none;
-  padding: 8px 16px;
+  padding: 8px;
   font-size: 1rem;
   border-radius: 3px;
-  margin-right: 10px;
-
+  margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.clearBoardBtn {
-  background-color: #6a93cb;
+.clearBoardBtn:hover, .checkSolutionBtn:hover {
+  background-color: #e0e0e0;
 }
 
-.clearBoardBtn:hover {
-  background-color: #5a7daf;
-}
-
-.clearBoardBtn:active {
-  background-color: #4a6793;
+.clearBoardBtn:active, .checkSolutionBtn:active {
+  background-color: #d0d0d0;
 }
 
 .checkSolutionBtn {
-  background-color: #6ab376;
   margin-left: 10px;
-}
-
-.checkSolutionBtn:hover {
-  background-color: #5a9965;
-}
-
-.checkSolutionBtn:active {
-  background-color: #4a7d54;
 }
 
 /* -------------------- Chat Styles -------------------- */
 .chatBox {
+  display: flex;
+  flex-direction: column;
+  
   border: 4px solid #000000;
-  padding: 10px;
-  width: 401px;
-  margin: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 3px;
+  box-sizing: border-box;
 }
 
 .chatLog {
-  height: 327px;
+  height: 100%;
   overflow-y: auto;
   border: 1px solid #7c7c7c;
   padding: 5px;
-  margin-bottom: 10px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
@@ -419,7 +414,12 @@ code {
 }
 
 .chatInput {
+  overflow-y: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   display: flex;
+  border-radius: 3px;
 }
 
 .chatInput input {
@@ -433,20 +433,25 @@ code {
 
 /* -------------------- Player Styles -------------------- */
 .players-section {
-  margin-top: 20px;
+  margin-top: 0px;
+  width: 100%;
+  height: 0%;
+  border-radius: 3px;
+  padding: 10px;
 }
 
 .clientInfo {
   font: 'Courier', monospace;
-  margin: 10px 0 10px 0;
+  margin: 0;
   font-size: 1rem;
+  font-weight: bold;
 }
 
 .playerHeader {
   font: 'Courier', monospace;
-  margin: 15px 0 5px 0;
-  font-size: 1.2rem;
-  font-weight: 400;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .playerList {
@@ -454,8 +459,20 @@ code {
 }
 
 .playerList ul {
-  padding-left: 20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 160px));
+  padding: 0px;
   margin-top: 5px;
+  font-size: .8rem;
+  list-style: none;
+}
+
+.playerList li {
+  background: #f5f5f5;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  margin-right: 10px;
 }
 
 
@@ -590,85 +607,80 @@ code {
 }
 
 
-@media (max-width: 920px) {
+/* Keypad styles */
+
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 5px; /* Add some internal padding */
+  box-sizing: border-box; /* Make sure padding doesn't increase size */
+}
+
+.keypad-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.keypad-button:hover {
+  background-color: #e0e0e0;
+}
+
+.keypad-button:active {
+  background-color: #d0d0d0;
+}
+
+.keypad-backspace {
+  grid-column: span 3;
+  background-color: #ffebeb;
+  transition: background-color 0.2s;
+}
+
+.keypad-backspace:hover {
+  background-color: #ffe0e0;
+}
+
+.keypad-backspace:active {
+  background-color: #ffcccc;
+}
+
+/* -------------------- Responsive Styles -------------------- */
+@media (max-width: 900px) {
   .app-container {
     flex-direction: column; /* Switch to vertical layout */
     align-items: center; /* Center align items */
   }
 
-  .board-controls-section {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+  .cell, .non-editable-cell {
+    width: 17px;
+    height: 25px;
 
-  .clearBoardBtn, .checkSolutionBtn {
-    width: 164px; /* Full width buttons for mobile */
-    margin-bottom: 18px;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  .chatLog {
-    height: 100px;
-    overflow-y: auto;
-    border: 1px solid #7c7c7c;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    max-width: 100%;
-  }  
-  
-  .chatBox {
-    border: 4px solid #000000;
-    padding: 10px;
-    width: 100%;
-    border-radius: 3px;
-    box-sizing: border-box;
-  }
-
-  .players-section {
-    margin-top: 0px;
-    max-width: 90%;
-    box-sizing: border-box;
-  }
-
-  .playerHeader {
-    font: 'Courier', monospace;
-    margin-left: 20px;
-    font-size: 1.2rem;
-    font-weight: 400;
-  }
-  
-  .playerList {
-    margin-bottom: 10px;
-    margin-left: 20px;
-  }
-
-  .clientInfo {
-    font: 'Courier', monospace;
-    margin-left: 20px;
-    margin-top: 15px;
-  }
-
-
-  .sudokuTitle {
     text-align: center;
+    border: 1px solid #7c7c7c;
+    font-size: 1.1rem;
+    outline: none;
+    border-radius: 0;
+    
   }
 
   .right-section {
-    display: flex;
-    flex-direction: column;
-    width: 88%;
-    box-sizing: border-box;
-    align-self: left;
-    margin: 0 0 0 3px;
+    margin-top: 10px;
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+
+  .controls-container {
+    margin-top: 39px;
   }
 }
-
-
 /* Mobile layout */
 @media (max-width: 400px) {
   .app-container {
@@ -676,61 +688,36 @@ code {
     align-items: center; /* Center align items */
   }
 
-  .board-controls-section {
-    margin: 0;
-    display: flex;
-    justify-content: center;
+  .left-section {
+    flex-direction: column; /* Stack controls and sudoku vertically */
+    margin-left: 0px;
+  }
+
+  .right-section {
+    margin-top: 10px;
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+
+  .controls-container {
+    width: 100%;
+    order: 2;
+    margin: 0px;
+    margin-top: 10px;
+  }
+
+  .sudoku-container {
+    order: 1;
     width: 100%;
   }
 
-  .clearBoardBtn, .checkSolutionBtn {
-    width: 162px; /* Full width buttons for mobile */
-    margin-bottom: 19px;
+  .chatBox {
+    width: 100%;
   }
 
   .chatLog {
     height: 100px;
-    overflow-y: auto;
-    border: 1px solid #7c7c7c;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    max-width: 100%;
   }  
-  
-  .chatBox {
-    border: 4px solid #000000;
-    padding: 10px;
-    width: 100%;
-    height: 165px;
-    border-radius: 3px;
-    box-sizing: border-box;
-  }
-
-  .players-section {
-    margin-top: 0px;
-    max-width: 90%;
-    box-sizing: border-box;
-  }
-
-  .playerHeader {
-    font: 'Courier', monospace;
-    margin-left: 20px;
-    font-size: 1.2rem;
-    font-weight: 400;
-  }
-  
-  .playerList {
-    margin-bottom: 10px;
-    margin-left: 20px;
-  }
-
-  .clientInfo {
-    font: 'Courier', monospace;
-    margin-left: 20px;
-    margin-top: 15px;
-  }
 
   .cell, .non-editable-cell {
     width: 17px;
@@ -747,15 +734,6 @@ code {
   .sudokuTitle {
     text-align: center;
     margin-left: 0px;
-  }
-
-  .right-section {
-    display: flex;
-    flex-direction: column;
-    width: 89%;
-    box-sizing: border-box;
-    align-self: left;
-    margin: 0 0 0 3px;
   }
 
   .popup-content {
@@ -778,7 +756,34 @@ code {
   .filter-search input {
     font-size: .7rem;
   }
+
   .loading-container {
     padding-top: 50%;
   }
+
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  
+    max-width: 100%;
+  }
+  
+  .keypad-button {
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .keypad-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .keypad-backspace {
+    grid-column: span 1;
+    background-color: #ffebeb;
+  }
+
 }
