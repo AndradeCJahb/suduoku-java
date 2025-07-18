@@ -24,7 +24,7 @@ function Keypad({
                 {numbers.map((number) => {
                     const disabled = counts[number] >= 9;
                     return (
-                        <button
+                        <div
                             key={number}
                             className="keypad-button"
                             onClick={() => onNumberClick(number.toString())}
@@ -38,7 +38,7 @@ function Keypad({
                             }
                         >
                             {number}
-                        </button>
+                        </div>
                     );
                 })}
                 <span

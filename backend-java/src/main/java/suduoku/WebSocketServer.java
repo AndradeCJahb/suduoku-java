@@ -73,6 +73,9 @@ public class WebSocketServer {
                 case "sendIncorrectCellsUpdate":
                     handleSendIncorrectCellsChange(jsonMessage);
                     break;
+                case "sendElapsedTime":
+                    handleSendElapsedTime(jsonMessage);
+                    break;
                 default:
                     System.out.println("Unknown request type: " + requestType);
             }
@@ -465,6 +468,28 @@ public class WebSocketServer {
 
         board.incorrectCellsChange(row, col);
         broadcastIncorrectCells(puzzleId);
+    }
+
+    private void handleSendElapsedTime(JSONObject jsonMessage) {
+        int puzzleId = jsonMessage.getInt("puzzleId");
+        long elapsedTime = jsonMessage.getLong("elapsedTime");
+
+        JSONObject response = new JSONObject();
+        response.put("type", "updateElapsedTime");
+        response.put("elapsedTime", elapsedTime);
+        response.put("puzzleId", puzzleId);
+
+        for (Player currentPlayer : players.values()) {
+            Session currentSession = currentPlayer.getSession();
+            if (currentSession.isOpen() && currentPlayer.getCurrentPuzzleId() == puzzleId) {
+                try {
+                    currentSession.getBasicRemote().sendText(response.toString());
+                } catch (IOException e) {
+                    System.err.println("Error sending updateElapsedTime" + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 

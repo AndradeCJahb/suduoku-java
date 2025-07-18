@@ -15,12 +15,6 @@ Hosted at https://suduoku.vercel.app/.
 - ✅ Solution verification and error highlighting
 - 🎨 Unique player colors and auto-generated names
 
-## Browser Compatibility
-
-- ✅ Firefox
-- ✅ Chrome 
-- ✅ Safari
-
 ## Contributing
 
 ### Getting Started
@@ -52,34 +46,6 @@ Hosted at https://suduoku.vercel.app/.
     -   `npm install`
 
 6. Run frontend server `npm start`
-
-### Project Structure
-
-```
-suduoku-java/
-├── backend-java/                       # Maven backend
-│   ├── src/ 
-│   │   └── main/java/suduoku           
-│   │       ├── Board.java              
-│   │       ├── Player.java
-│   │       ├── SuduokuBackend.java
-│   │       └── WebSocketServer.java
-│   ├── pom.xml                         
-│   └── sudokugames.db                  
-├── frontend/                           # React frontend
-│   ├── public/                         
-│   │   ├── favicon.ico
-│   │   └── index.html
-│   └── src/
-│       ├── components/
-│       │   ├── Header.js
-│       │   ├── PuzzleSelection.js
-│       │   └── SudokuGame.js
-│       ├── index.js
-│       └── index.css                   
-└── sudoku_scraper/                     # Python to get new NYT sudoku puzzles
-    └── sudoku_scraper.py
-```
 
 ## Technologies
 

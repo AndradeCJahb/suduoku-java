@@ -161,10 +161,17 @@ function SudokuBoard({
     setFocusedCell,
     clientId,
     puzzleTitle,
+    elapsedTime,
+    formatTime,
 }) {
     return (
         <div className="sudoku-container">
-            <div className="sudokuTitle">{puzzleTitle}</div>
+            <div className="sudoku-header-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div className="sudokuTitle">{puzzleTitle}</div>
+                <div className="sudoku-timer" style={{ fontSize: "1.1rem", marginLeft: 16 }}>
+                    {formatTime ? formatTime(elapsedTime) : ""}
+                </div>
+            </div>
             <FinalGrid
                 gridData={gridData}
                 onCellChange={handleCellChange}

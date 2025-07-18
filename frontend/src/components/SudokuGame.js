@@ -6,6 +6,8 @@ import webSocketManager from "./WebSocketManager";
 import SudokuBoard from "./SudokuBoard";
 import PlayerChat from "./PlayerChat";
 import Keypad from "./Keypad";
+import SolvedPopup from "./SolvedPopup";
+
 
 // Check if a client ID exists in localStorage
 let clientId = localStorage.getItem("clientId");
@@ -43,6 +45,9 @@ function SudokuGame() {
     const [puzzleSolved, setPuzzleSolved] = useState(false);
     const chatLogRef = useRef(null);
 
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const timerRef = useRef(null);
+
     useEffect(() => {
         // Scroll to the bottom of the chat log whenever messages are updated
         if (chatLogRef.current) {
@@ -51,18 +56,48 @@ function SudokuGame() {
     }, [chatMessages]);
 
     useEffect(() => {
+        if (!puzzleSolved) {
+            timerRef.current = setInterval(() => {
+                setElapsedTime((prev) => prev + 1);
+            }, 1000);
+        } else if (timerRef.current) {
+            clearInterval(timerRef.current);
+        }
+        return () => clearInterval(timerRef.current);
+    }, [puzzleSolved]);
+
+    // Reset timer when puzzle changes
+    useEffect(() => {
+        setElapsedTime(0);
+    }, [puzzleId]);
+
+    // Format time as mm:ss
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60)
+            .toString()
+            .padStart(2, "0");
+        const s = (seconds % 60).toString().padStart(2, "0");
+        return `${m}:${s}`;
+    };
+
+
+
+    useEffect(() => {
         const wsUrl = "ws://localhost:8080/ws";
         console.log(`Connecting to WebSocket at ${wsUrl}`);
         webSocketManager.connect(wsUrl);
 
         const handleMessage = (data) => {
             if (data.type === "updatePuzzle") {
+                // Transpose the grid data
                 const updatedGrid = Array.from({ length: 9 }, (_, rowIndex) =>
                     Array.from({ length: 9 }, (_, colIndex) => ({
                         value: data.board[colIndex][rowIndex].value, // Swap row and column indices
                         isEditable: data.board[colIndex][rowIndex].isEditable, // Swap row and column indices
                     })),
                 );
+
+                // Update the grid data
                 setGridData(updatedGrid);
                 setPuzzleTitle(data.title);
             } else if (data.type === "updatePlayers") {
@@ -100,48 +135,46 @@ function SudokuGame() {
         };
     }, [puzzleId, navigate]);
 
-    const handleKeyDown = (event) => {
-        const { row, col } = focusedCell;
-        switch (event.key) {
-            case "ArrowUp":
-                if (col > 0) setFocusedCell({ row: row, col: col - 1 });
-                break;
-            case "ArrowDown":
-                if (col < 8) setFocusedCell({ row: row, col: col + 1 });
-                break;
-            case "ArrowLeft":
-                if (row > 0) setFocusedCell({ row: row - 1, col: col });
-                break;
-            case "ArrowRight":
-                if (row < 8) setFocusedCell({ row: row + 1, col: col });
-                break;
-            default:
-                break;
-        }
-    };
-
+    // Handles key navigation and cell focus
     useEffect(() => {
-        const handleKeyPress = (event) => handleKeyDown(event);
+        const handleKeyPress = (event) => {
+            const { row, col } = focusedCell;
+            switch (event.key) {
+                case "ArrowUp":
+                    if (col > 0) setFocusedCell({ row: row, col: col - 1 });
+                    break;
+                case "ArrowDown":
+                    if (col < 8) setFocusedCell({ row: row, col: col + 1 });
+                    break;
+                case "ArrowLeft":
+                    if (row > 0) setFocusedCell({ row: row - 1, col: col });
+                    break;
+                case "ArrowRight":
+                    if (row < 8) setFocusedCell({ row: row + 1, col: col });
+                    break;
+                default:
+                    break;
+            }
+        };
 
         window.addEventListener("keydown", handleKeyPress);
-        return () => {
-            window.removeEventListener("keydown", handleKeyPress);
-        };
-    });
 
-    useEffect(() => {
+        // Focus the input for the currently focused cell
         const { row, col } = focusedCell;
         const targetCell = document.querySelector(
-            `input[data-row="${row}"][data-col="${col}"]`,
+            `input[data-row="${row}"][data-col="${col}"]`
         );
         if (targetCell) {
             targetCell.focus();
-            // Ensure the cursor is always at the end of the input value
             const valueLength = targetCell.value.length;
             setTimeout(() => {
                 targetCell.setSelectionRange(valueLength, valueLength);
-            }, 0); // Use a timeout to ensure this runs after the focus event
+            }, 0);
         }
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
     }, [focusedCell]);
 
     const handleCheckSolution = () => {
@@ -185,6 +218,12 @@ function SudokuGame() {
             col: row,
             value: value || 0,
         });
+
+        webSocketManager.send({
+            type: "sendElapsedTime",
+            puzzleId: puzzleId,
+            elapsedTime: elapsedTime
+        });
     };
 
     const handleClearBoard = () => {
@@ -225,24 +264,10 @@ function SudokuGame() {
         <div>
             <Header />
 
-            <div
-                className="solved-popup"
-                style={{ display: puzzleSolved ? "flex" : "none" }}
-            >
-                <div className="solved-popup-content">
-                    <span
-                        className="close-solved"
-                        onClick={() => setPuzzleSolved(false)}
-                    >
-                        &times;
-                    </span>
-                    <h2 className="solved-title">Puzzle Solved!</h2>
-                    <p className="solved-text">
-                        Congratulations! You've successfully completed the
-                        puzzle.
-                    </p>
-                </div>
-            </div>
+            <SolvedPopup
+                visible={puzzleSolved}
+                onClose={() => setPuzzleSolved(false)}
+            />
 
             <div className="app-container">
                 <div className="left-section">
@@ -262,6 +287,8 @@ function SudokuGame() {
                         playerPositions={playerPositions}
                         setFocusedCell={setFocusedCell}
                         clientId={clientId}
+                        elapsedTime={elapsedTime}
+                        formatTime={formatTime}
                     />
                 </div>
 
