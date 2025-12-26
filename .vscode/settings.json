@@ -1,6 +1,0 @@
-{
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "[javascript]": {
-    "editor.formatOnSave": true
-  }
-}
