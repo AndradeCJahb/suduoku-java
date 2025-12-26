@@ -1,46 +1,9 @@
-# Node.js
-node_modules/
 .env
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Build output
 frontend/build/
-frontend/dist/
-
-# VSCode
-.vscode/
-
-# Java
-*.class
-*.jar
-*.war
-*.ear
-*.iml
-*.log
-*.tmp
-*.swp
+frontend/node_modules/
 backend-java/target/
-backend-java/.classpath
-backend-java/.project
-backend-java/.settings/
+backend-java/sudokugames.db
 
-# Python
-*.pyc
-__pycache__/
-
-# SQLite database
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Docker
-**/.docker/
-**/docker-compose.override.yml
-
-# Misc
 .idea/
-*.sublime-workspace
-*.sublime-project
+.vscode/

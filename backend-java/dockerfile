@@ -11,10 +11,7 @@ COPY . .
 RUN mvn package -DskipTests
 
 # Use an official OpenJDK runtime image to run the application
-FROM eclipse-temurin:24-jre-alpine
-
-# Set the working directory inside the container
-WORKDIR /app
+FROM eclipse-temurin:21-jre-alpine
 
 # Install Python
 RUN apk add --no-cache python3 py3-requests
