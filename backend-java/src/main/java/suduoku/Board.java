@@ -6,13 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static suduoku.Constants.DB_URL;
+
 public class Board {
-    private static final String DB_URL = "jdbc:sqlite:/app/sudokugames.db";
-    private int puzzleId;
+    private final int puzzleId;
     private String title;
     private String difficulty;
     private Integer[][][] board;
@@ -141,7 +143,7 @@ public class Board {
         try (Connection conn = DriverManager.getConnection(DB_URL);
             PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, sdx);
-            stmt.setInt(2, this.puzzleId); // Assuming you want to update the puzzle with ID 1
+            stmt.setInt(2, this.puzzleId);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,16 +154,12 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if(board[i][j][0] != null){
-                    if (!board[i][j][0].equals(solution[i][j][0])) { // Only check editable cells
+                    if (!board[i][j][0].equals(solution[i][j][0])) {
                         incorrectCells.add(new int[]{i, j});
                     }
                 }
             }
         }
-    }
-
-    public void setIncorrectCells(ArrayList<int[]> incorrectCells) {
-        this.incorrectCells = incorrectCells;
     }
 
     public ArrayList<int[]> getIncorrectCells() {
@@ -172,10 +170,9 @@ public class Board {
         this.incorrectCells.clear();
     }
 
-    public void incorrectCellsChange(int row, int col) {
+    public void removeIncorrectCell(int[] cellToRemove) {
         for (int i = 0; i < incorrectCells.size(); i++) {
-            int[] cell = incorrectCells.get(i);
-            if (cell[0] == row && cell[1] == col) {
+            if (Arrays.equals(incorrectCells.get(i), cellToRemove)) {
                 incorrectCells.remove(i);
                 return;
             }
@@ -183,11 +180,11 @@ public class Board {
     }
 
     public boolean isSolved() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j][0] == null || !board[i][j][0].equals(solution[i][j][0])) {
-                    return false;
-                }
+        for (int i = 0; i < 81; i++) {
+            int row = i / 9;
+            int col = i % 9;
+            if (board[row][col][0] == null || !board[row][col][0].equals(solution[row][col][0])) {
+                return false;
             }
         }
         return true;

@@ -1,0 +1,54 @@
+.info-popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+
+.popup-content {
+	color: #000000;
+	background-color: white;
+	padding-left: 20px;
+	padding-bottom: 20px;
+	padding-right: 20px;
+	border-radius: 3px;
+	max-width: 40%;
+	overflow-y: auto;
+	position: relative;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-popup {
+	color: #000;
+	position: absolute;
+	top: 12px;
+	right: 23px;
+	font-size: 2rem;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close-popup:hover {
+	color: #555555;
+}
+
+.info-title {
+	font: "Courier", monospace;
+	color: black;
+	font-size: 1.5rem;
+	text-align: left;
+	font-weight: bold;
+}
+
+.info-text {
+	font: "Courier", monospace;
+	color: black;
+	font-size: 1rem;
+	text-align: left;
+}

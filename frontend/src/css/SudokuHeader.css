@@ -1,0 +1,18 @@
+.sudoku-header-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.sudoku-title {
+	font: "Courier", monospace;
+	color: black;
+	font-size: 1.5rem;
+	text-align: center;
+	font-weight: bold;
+}
+
+.sudoku-timer {
+	margin-left: 20px;
+}

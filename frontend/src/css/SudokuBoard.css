@@ -1,0 +1,39 @@
+.sudoku-container {
+	max-width: fit-content;
+	margin: 0 auto;
+}
+
+.finalGrid {
+	display: grid;
+	grid-template-columns: repeat(3, auto);
+	grid-template-rows: repeat(3, auto);
+	border: 4px solid #000000;
+	border-radius: 3px;
+}
+
+.threeGrid {
+	display: grid;
+	border: 1px solid #7c7c7c;
+}
+
+.cell,
+.non-editable-cell {
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	border: 1px solid #7c7c7c;
+	font-size: 1.5rem;
+	outline: none;
+}
+
+.non-editable-cell {
+	background-color: #d2d2d2;
+}
+
+.cell:focus {
+	background-color: #ffdf8e;
+}
+
+.incorrect-cell {
+	background-color: #ffcccc !important;
+}

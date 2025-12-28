@@ -4,56 +4,42 @@ import jakarta.websocket.Session;
 
 import java.util.Random;
 
+import static suduoku.Constants.playerNameNouns;
+import static suduoku.Constants.playerNameAdjectives;
+
 public class Player {
-    private static final String[] adjectives = {
-        "Brave", "Clever", "Happy", "Kind", "Quick", "Witty", "Bright", "Calm", "Bold", "Sharp",
-        "Gentle", "Loyal", "Strong", "Wise", "Fierce", "Noble", "Friendly", "Quiet", "Swift", "Charming",
-        "Graceful", "Fearless", "Mighty", "Playful", "Cheerful", "Daring", "Elegant", "Generous", "Humble", "Jolly",
-        "Lively", "Patient", "Proud", "Sincere", "Thoughtful", "Vibrant", "Zesty", "Adventurous", "Ambitious", "Courageous",
-        "Diligent", "Energetic", "Faithful", "Gentle", "Harmonious", "Inventive", "Joyful", "Radiant", "Resilient", "Spirited"
-    };
-
-    private static final String[] nouns = {
-        "Tiger", "Eagle", "Fox", "Bear", "Wolf", "Lion", "Hawk", "Shark", "Panda", "Falcon",
-        "Otter", "Dolphin", "Cheetah", "Leopard", "Jaguar", "Panther", "Rabbit", "Deer", "Koala", "Penguin",
-        "Turtle", "Crocodile", "Alligator", "Peacock", "Swan", "Raven", "Owl", "Parrot", "Lynx", "Seal",
-        "Whale", "Octopus", "Crane", "Stork", "Hedgehog", "Badger", "Moose", "Buffalo", "Antelope", "Gazelle",
-        "Kangaroo", "Wallaby", "Platypus", "Armadillo", "Sloth", "Chameleon", "Iguana", "Gecko", "Flamingo", "Toucan"
-    };
-
     private Session session;
-    private String name;
-    private String color;
+    private final String name;
+    private final String color;
     private int currentPuzzleId;
     private int selectedRow;
     private int selectedCol;
 
-    // Constructor
     public Player(Session session) {
         this.session = session;
         this.name = generateName();
         this.color = generateColor();
-        this.currentPuzzleId = -1; // No puzzle assigned initially
-        this.selectedRow = -1;       // No square selected initially
-        this.selectedCol = -1;       // No square selected initially
+        this.currentPuzzleId = -1;
+        this.selectedRow = -1;
+        this.selectedCol = -1;
     }
 
     private String generateName() {
         Random random = new Random(System.currentTimeMillis());
-        int randomIndex = random.nextInt(adjectives.length);
-        String adjective = adjectives[randomIndex];
-        String noun = nouns[randomIndex];
+        int randomIndex = random.nextInt(playerNameAdjectives.length);
+        String adjective = playerNameAdjectives[randomIndex];
+        String noun = playerNameNouns[randomIndex];
         return adjective + noun + random.nextInt(100);
     }
 
     private String generateColor() {
         Random random = new Random(System.currentTimeMillis());
-        String color = "#";
+        StringBuilder color = new StringBuilder("#");
         for (int i = 1; i < 7; i++) {
             int randomHex = random.nextInt(16);
-            color = color + Integer.toHexString(randomHex);
+            color.append(Integer.toHexString(randomHex));
         }
-        return color;
+        return color.toString();
     }
 
     public Session getSession() {
@@ -94,12 +80,6 @@ public class Player {
 
     public void setSelectedCol(int selectedCol) {
         this.selectedCol = selectedCol;
-    }
-
-    // Utility Methods
-    public void clearSelection() {
-        this.selectedRow = -1;
-        this.selectedCol = -1;
     }
 
     @Override

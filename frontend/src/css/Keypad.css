@@ -1,0 +1,94 @@
+.keypad {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	padding: 0 20px; /* Add some internal padding */
+	box-sizing: border-box; /* Make sure padding doesn't increase size */
+}
+
+.keypad-button {
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	font: "Courier", monospace;
+	background-color: #efefef;
+	border-radius: 3px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 5px;
+	padding: 25px;
+	text-align: center;
+	transition:
+		box-shadow 0.2s,
+		background-color 0.2s;
+}
+
+.keypad-button:hover {
+	background-color: #e0e0e0;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.keypad-button:active {
+	background-color: #d0d0d0;
+}
+
+.keypad-backspace {
+	grid-column: span 3;
+	background-color: #ffebeb;
+	transition: background-color 0.2s;
+}
+
+.keypad-backspace:hover {
+	background-color: #ffe0e0;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.keypad-backspace:active {
+	background-color: #ffcccc;
+}
+
+.board-controls-section {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.clearBoardBtn {
+	background-color: #cfedff;
+}
+
+.clearBoardBtn:hover {
+	background-color: #bbd6e6;
+}
+
+.clearBoardBtn:active {
+	background-color: #abc4d3;
+}
+
+.checkSolutionBtn {
+	background-color: #cfffd8;
+}
+
+.checkSolutionBtn:hover {
+	background-color: #b9e6c2;
+}
+
+.checkSolutionBtn:active {
+	background-color: #a8d3b3;
+}
+
+.backspaceBtn {
+	background-color: #ffd1d1;
+}
+
+.backspaceBtn:hover {
+	background-color: #ffbcbc;
+}
+
+.backspaceBtn:active {
+	background-color: #ffaaaa;
+}
+
+.controls-container {
+	border-radius: 3px;
+	min-width: 300px; /* Let it size to content */
+}

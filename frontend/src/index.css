@@ -1,803 +1,162 @@
 /* -------------------- Base Styles -------------------- */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box; 
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	margin: 0;
+	padding: 0;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 }
 
 /* -------------------- Layout Structure -------------------- */
-/* Default layout for larger screens */
 .app-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	justify-content: center;
+}
+
+.sudoku-title {
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	color: black;
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+	margin: 5px;
 }
-
-.left-section {
-  display: flex;
-  box-sizing: border-box;
-  min-width: fit-content;  
-  flex-direction: row;
-  margin-left: 20px;
-}
-
-.controls-container {
-  margin-top: 42px;
-  margin-right: 20px;
-  border-radius: 3px;
-  order: 1;
-  height: fit-content;
-  box-sizing: border-box; /* Add this to include border in width/height calculations */
-  min-width: 300px; /* Let it size to content */
-}
-
-.sudoku-container {
-  order: 2;
-}
-
-.right-section {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  min-width: fit-content;  
-
-  width: 30%;
-  margin-top: 42px;
-  margin-right: 20px;
-  margin-left: 20px;
-}
-
-
-
-/* -------------------- Header Styles -------------------- */
-.header {
-  font: 'Courier', monospace;
-  color: white;
-  font-size: 1.5rem;
-  text-align: left;
-  padding: 15px 10px 15px 20px;
-  background-color: rgb(112, 155, 208);
-  box-sizing: border-box;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-}
-
-
-.header-logo {
-  height: 32px;
-  width: 32px;
-  margin-right: 15px;
-}
-
-.header-title {
-  font: 'Courier', monospace;
-  margin: 0;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-sizing: border-box;
-  transition: color 0.2s;
-}
-
-.header-title:hover {
-  color: #dddddd; 
-}
-
-.header-title:hover .header-title-duo {
-  color: #ddbd6c; 
-}
-
-.header-title-duo {
-  color: #ffdf8e;
-  transition: color 0.2s;
-}
-
-.header-info {
-  font: 'Courier', monospace;
-  font-size: 1rem;
-  color: rgb(112, 155, 208);
-  margin-right: 20px;
-  border:#ffffff 1px solid;
-  background-color: #ffffff;
-  border-radius: 100px;
-  padding-left: 8.5px;
-  padding-right: 8.5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.header-info:hover {
-  background-color: #e8f0fe;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.info-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-
-.popup-content {
-  color: #000000;
-  background-color: white;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  padding-right: 20px;
-  border-radius: 3px;
-  max-width: 40%;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.close-popup {
-  color: #000;
-  position: absolute;
-  top: 12px;
-  right: 23px;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-popup:hover {
-  color: #555555;
-}
-
-.info-title {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1.5rem;
-  text-align: left;
-  font-weight: bold;
-}
-
-.info-text {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1rem;
-  text-align: left;
-}
-
-.solved-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-
-.solved-popup-content {
-  color: #000000;
-  background-color: white;
-  padding: 20px;
-  border-radius: 3px;
-  max-width: 80%;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Add these new styles to match the info popup */
-.solved-popup-content .close-solved {
-  color: #000;
-  position: absolute;
-  top: 12px;
-  right: 23px;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.solved-popup-content .close-solved:hover {
-  color: #555555;
-}
-
-.solved-title {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1.5rem;
-  text-align: left;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 15px;
-}
-
-.solved-text {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1rem;
-  text-align: left;
-  margin-bottom: 10px;
-}
-
-.sudokuTitle {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1.5rem;
-  text-align: left;
-  font-weight: bold;
-  text-align: center;
-  margin: 5px;
-}
-
-/* -------------------- Puzzle Filter Syltes -------------------- */
-
-.filter-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  max-width: 100%;
-}
-
-.filter-options {
-  display: flex;
-  align-items: center;
-  width: 40%;
-}
-
-.filter-difficulty-button {
-  font: 'Courier', monospace;
-  color: black;
-  font-size: 1rem;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border-radius: 3px;
-  margin-right: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s; 
-}
-
-.filter-difficulty-button:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  background-color: #e8f0fe;
-}
-
-.filter-search {
-  font: 'Courier', monospace;
-  width: 100%;
-  margin-right: 40px;
-}
-
-.filter-search input {
-  padding: 10px;
-  border: 1px solid #cccccc;
-  border-radius: 3px;
-  font-size: 1rem;
-  width: 100%;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.filter-search input::placeholder {
-  color: #aaaaaa;
-}
-
-/* -------------------- Sudoku Grid Styles -------------------- */
-
-
-.finalGrid {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  grid-template-rows: repeat(3, auto);
-  border: 4px solid #000000;
-  border-radius: 3px;
-}
-
-.threeGrid {
-  display: grid;
-  border: 1px solid #7c7c7c;
-}
-
-.cell, .non-editable-cell {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  border: 1px solid #7c7c7c;
-  font-size: 1.5rem;
-  outline: none;
-}
-
-.non-editable-cell {
-  background-color: #d2d2d2;
-}
-
-.cell:focus {
-  background-color: #ffdf8e;
-}
-
-.incorrect-cell {
-  background-color: #ffcccc !important;
-}
-
-
-
-/* -------------------- Chat Styles -------------------- */
-.chatBox {
-  display: flex;
-  flex-direction: column;
-  
-  border: 4px solid #000000;
-  width: 100%;
-  height: 100%;
-  border-radius: 3px;
-  box-sizing: border-box;
-}
-
-.chatLog {
-  height: 100%;
-  overflow-y: auto;
-  border: 1px solid #7c7c7c;
-  padding: 5px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 3px;
-}
-
-.chatLog div {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.chatLog .message {
-  flex: 1;
-  text-align: left;
-  margin-left: 10px;
-}
-
-.chatLog .time {
-  font-size: 0.8rem;
-  color: #888;
-  margin-left: 10px;
-  text-align: right;
-  white-space: nowrap;
-}
-
-.chatInput {
-  overflow-y: auto;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  border-radius: 3px;
-}
-
-.chatInput input {
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #7c7c7c;
-  border-radius: 3px;
-  background-color: #e7e7e7;
-  color: #000000;
-}
-
-/* -------------------- Player Styles -------------------- */
-.players-section {
-  margin-top: 0px;
-  width: 100%;
-  height: 0%;
-  border-radius: 3px;
-  padding: 10px;
-}
-
-.clientInfo {
-  font: 'Courier', monospace;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.playerHeader {
-  font: 'Courier', monospace;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.playerList {
-  margin-bottom: 10px;
-}
-
-.playerList ul {
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 160px));
-  padding: 0px;
-  margin-top: 5px;
-  font-size: .8rem;
-  list-style: none;
-}
-
-.playerList li {
-  background: #f5f5f5;
-  border-radius: 3px;
-  border: 1px solid #e0e0e0;
-  text-align: center;
-  margin-right: 10px;
-}
-
-
-/* -------------------- Puzzle Selection Styles -------------------- */
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20%;
-}
-
-.loading-message {
-  font: 'Courier', monospace;
-  margin-top: 15px;
-  font-size: 1rem;
-  color: #777777;
-}
-
-.loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 5px solid rgba(112, 155, 208, 0.3);
-  border-radius: 50%;
-  border-top-color: rgb(112, 155, 208);
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.selection-title {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 2rem;
-}
-
-.puzzle-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.puzzle-card {
-  background-color: #f5f5f5;
-  border-radius: 3px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
-}
-
-.puzzle-card:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  background-color: #e8f0fe;
-}
-
-.puzzle-card h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.puzzle-meta {
-  display: flex;
-  justify-content: space-between;
-}
-
-.difficulty, .status {
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 0.8rem;
-}
-
-.difficulty {
-  background-color: #e1f5fe;
-  color: #0288d1;
-}
-
-.status {
-  background-color: #e8f5e9;
-  color: #388e3c;
-}
-
-.game-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.menu-button {
-  background-color: #6a93cb;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.menu-button:hover {
-  background-color: #5a7daf;
-}
-
-.error-container {
-  max-width: 500px;
-  margin: 100px auto;
-  text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 3px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.error-container h2 {
-  color: #e53935;
-  margin-bottom: 15px;
-}
-
-.error-container button {
-  margin-top: 20px;
-}
-
-
-/* Keypad styles */
-
-
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  padding: 5px; /* Add some internal padding */
-  box-sizing: border-box; /* Make sure padding doesn't increase size */
-}
-
-.keypad-button {
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  font: 'Courier', monospace;
-  background-color: #f5f5f5;
-  border-radius: 3px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
-  padding: 25px;
-  text-align: center;
-  transition: box-shadow 0.2s, background-color 0.2s;
-}
-
-.keypad-button:hover {
-  background-color: #e0e0e0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.keypad-button:active {
-  background-color: #d0d0d0;
-}
-
-.keypad-backspace {
-  grid-column: span 3;
-  background-color: #ffebeb;
-  transition: background-color 0.2s;
-}
-
-.keypad-backspace:hover {
-  background-color: #ffe0e0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.keypad-backspace:active {
-  background-color: #ffcccc;
-}
-
-/* -------------------- Control Buttons -------------------- */
-.board-controls-section {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.clearBoardBtn, .checkSolutionBtn {
-  color: rgb(0, 0, 0);
-  background-color: #f0f0f0;
-  font-weight: bold;
-  border: none;
-  padding: 25px;
-  font-size: 1rem;
-  border-radius: 3px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: background-color 0.2s;
-  transition: box-shadow 0.2s, background-color 0.2s;
-}
-
-.clearBoardBtn:hover, .checkSolutionBtn:hover {
-  background-color: #e0e0e0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.clearBoardBtn:active, .checkSolutionBtn:active {
-  background-color: #d0d0d0;
-}
-
-.checkSolutionBtn {
-  margin-left: 10px;
-}
-
-
 
 /* -------------------- Responsive Styles -------------------- */
 @media (max-width: 900px) {
-  .app-container {
-    flex-direction: column; /* Switch to vertical layout */
-    align-items: center; /* Center align items */
-  }
+	.app-container {
+		flex-direction: column; /* Switch to vertical layout */
+		align-items: center; /* Center align items */
+	}
 
-  .cell, .non-editable-cell {
-    width: 17px;
-    height: 25px;
+	.cell,
+	.non-editable-cell {
+		width: 17px;
+		height: 25px;
 
-    text-align: center;
-    border: 1px solid #7c7c7c;
-    font-size: 1.1rem;
-    outline: none;
-    border-radius: 0;
-    
-  }
+		text-align: center;
+		border: 1px solid #7c7c7c;
+		font-size: 1.1rem;
+		outline: none;
+		border-radius: 0;
+	}
 
-  .right-section {
-    margin-top: 10px;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
+	.right-section {
+		margin-top: 10px;
+		padding-left: 35px;
+		padding-right: 35px;
+	}
 
-  .controls-container {
-    margin-top: 39px;
-  }
+	.controls-container {
+		margin-top: 39px;
+	}
 }
 /* Mobile layout */
 @media (max-width: 400px) {
-  .app-container {
-    flex-direction: column; /* Switch to vertical layout */
-    align-items: center; /* Center align items */
-  }
+	.app-container {
+		flex-direction: column; /* Switch to vertical layout */
+		align-items: center; /* Center align items */
+	}
 
-  .left-section {
-    flex-direction: column; /* Stack controls and sudoku vertically */
-    margin-left: 0px;
-  }
+	.left-section {
+		flex-direction: column; /* Stack controls and sudoku vertically */
+		margin-left: 0px;
+	}
 
-  .right-section {
-    margin: 0px;
-    margin-top: 10px;
-    width: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
-  }
+	.right-section {
+		margin: 0px;
+		margin-top: 10px;
+		width: 100%;
+		padding-left: 25px;
+		padding-right: 25px;
+	}
 
-  .controls-container {
-    width: 100%;
-    order: 2;
-    margin: 0px;
-    margin-top: 10px;
-  }
+	.controls-container {
+		width: 100%;
+		order: 2;
+		margin: 0px;
+		margin-top: 10px;
+	}
 
-  .sudoku-container {
-    order: 1;
-    width: 100%;
-  }
+	.chatBox {
+		width: 100%;
+	}
 
-  .chatBox {
-    width: 100%;
-  }
+	.chatLog {
+		height: 100px;
+	}
 
-  .chatLog {
-    height: 100px;
-  }  
+	.cell,
+	.non-editable-cell {
+		width: 17px;
+		height: 25px;
 
-  .cell, .non-editable-cell {
-    width: 17px;
-    height: 25px;
+		text-align: center;
+		border: 1px solid #7c7c7c;
+		font-size: 1.1rem;
+		outline: none;
+		border-radius: 0;
+	}
 
-    text-align: center;
-    border: 1px solid #7c7c7c;
-    font-size: 1.1rem;
-    outline: none;
-    border-radius: 0;
-    
-  }
+	.sudokuTitle {
+		text-align: center;
+		margin-left: 0px;
+	}
 
-  .sudokuTitle {
-    text-align: center;
-    margin-left: 0px;
-  }
+	.popup-content {
+		max-width: 75%;
+	}
 
-  .popup-content {
-    max-width: 75%;
-  }
-  
-  .filter-container {
-    justify-content: left;
-    margin-left: 20px;
-  }
-  
-  .filter-options {
-    width: 100%;
-  }
+	.filter-container {
+		justify-content: left;
+		margin-left: 20px;
+	}
 
-  .filter-difficulty-button {
-    font-size: .7rem;
-  }
+	.filter-options {
+		width: 100%;
+	}
 
-  .filter-search input {
-    font-size: .7rem;
-  }
+	.filter-difficulty-button {
+		font-size: 0.7rem;
+	}
 
-  .loading-container {
-    padding-top: 50%;
-  }
+	.filter-search input {
+		font-size: 0.7rem;
+	}
 
-  .keypad {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-  
-    max-width: 100%;
-  }
-  
-  .keypad-button {
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 15px;
-    text-align: center;
-  }
-  
-  .keypad-backspace {
-    grid-column: span 1;
-    background-color: #ffebeb;
-  }
+	.loading-container {
+		padding-top: 50%;
+	}
 
-  .clearBoardBtn, .checkSolutionBtn {
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 15px;
-    text-align: center;
-  }
+	.keypad {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(4, 1fr);
 
+		max-width: 100%;
+	}
+
+	.keypad-button {
+		font-size: 1rem;
+		cursor: pointer;
+		padding: 15px;
+		text-align: center;
+	}
+
+	.keypad-backspace {
+		grid-column: span 1;
+		background-color: #ffebeb;
+	}
+
+	.clearBoardBtn,
+	.checkSolutionBtn {
+		font-size: 1rem;
+		cursor: pointer;
+		padding: 15px;
+		text-align: center;
+	}
 }

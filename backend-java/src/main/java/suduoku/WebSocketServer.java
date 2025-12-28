@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,15 +24,17 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
+import static suduoku.Constants.DB_URL;
+
 @ServerEndpoint("/ws")
 public class WebSocketServer {
+    private static final Logger logger = LogManager.getLogger(WebSocketServer.class);
     private static final Map<UUID, Player> players = new ConcurrentHashMap<>();
     private static final Map<Integer, Board> boards = new ConcurrentHashMap<>();
-    private static final String DB_URL = "jdbc:sqlite:/app/sudokugames.db";
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("Connection opened: " + session.getId());
+        logger.info("WebSocket connection opened: {}", session.getId());
     }
 
     @OnMessage
@@ -39,6 +43,8 @@ public class WebSocketServer {
             JSONObject jsonMessage = new JSONObject(message);
             String requestType = jsonMessage.getString("type");
             
+            logger.debug("Received message type '{}' from session {}", requestType, session.getId());
+
             switch (requestType) {
                 case "fetchPuzzles":
                     handleFetchPuzzles(session);
@@ -77,16 +83,16 @@ public class WebSocketServer {
                     handleSendElapsedTime(jsonMessage);
                     break;
                 default:
-                    System.out.println("Unknown request type: " + requestType);
+                    logger.warn("Unknown request type received: {}", requestType);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error processing WebSocket message: {}", message, e);
         }
     }
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println("Connection closed: " + session.getId());
+        logger.info("WebSocket connection closed: {}", session.getId());
         for(Player currPlayer : players.values()) {
             if (currPlayer.getSession().equals(session)) {
                 int puzzleId = currPlayer.getCurrentPuzzleId();
@@ -106,7 +112,7 @@ public class WebSocketServer {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        System.err.println("Error on session " + session.getId() + ": " + throwable.getMessage());
+        logger.error("Error on WebSocket session {}: {}", session.getId(), throwable.getMessage(), throwable);
     }
 
     private void handleFetchChat(Session session, JSONObject jsonMessage) {
@@ -137,11 +143,9 @@ public class WebSocketServer {
                 session.getBasicRemote().sendText(response.toString());
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching chat history: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error fetching chat history for puzzle {}: {}", puzzleId, e.getMessage(), e);
         } catch (IOException e) {
-            System.err.println("Error sending chat response: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error sending chat response for session {}: {}", session.getId(), e.getMessage(), e);
         }
     }
 
@@ -168,11 +172,9 @@ public class WebSocketServer {
             response.put("puzzles", puzzles);
             session.getBasicRemote().sendText(response.toString());
         } catch (SQLException e) {
-            System.err.println("Error fetching puzzles: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error fetching puzzles: {}", e.getMessage(), e);
         } catch (IOException e) {
-            System.err.println("Error sending puzzles response: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error sending puzzles response for session {}: {}", session.getId(), e.getMessage(), e);
         }
     }
 
@@ -200,8 +202,7 @@ public class WebSocketServer {
         try {
             session.getBasicRemote().sendText(response.toString());
         } catch (IOException e) {
-            System.err.println("Error sending identity response: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error sending identity response for session {}: {}", session.getId(), e.getMessage(), e);
         }
     }
 
@@ -211,8 +212,11 @@ public class WebSocketServer {
 
         players.get(clientId).setCurrentPuzzleId(puzzleId);
         
+        logger.info("Player {} joined puzzle {}", clientId, puzzleId);
+
         if (!boards.containsKey(puzzleId)) {
             boards.put(puzzleId, new Board(puzzleId));
+            logger.info("Created new board for puzzle {}", puzzleId);
         }
 
         broadcastBoard(puzzleId);
@@ -232,8 +236,7 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(boardJson.toString());
                 } catch (IOException e) {
-                    System.err.println("Error broadcasting board: " + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error broadcasting board to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
@@ -259,8 +262,7 @@ public class WebSocketServer {
             stmt.executeUpdate();
             broadcastChat(puzzleId);
         } catch (SQLException e) {
-            System.err.println("Error saving chat message: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error saving chat message for puzzle {}: {}", puzzleId, e.getMessage(), e);
         }
     }
 
@@ -297,8 +299,7 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(response.toString());
                 } catch (IOException e) {
-                    System.err.println("Error broadcasting players: " + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error broadcasting players to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
@@ -360,8 +361,7 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(response.toString());
                 } catch (IOException e) {
-                    System.err.println("Error broadcasting players: " + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error broadcasting player positions to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
@@ -374,10 +374,13 @@ public class WebSocketServer {
         int col = jsonMessage.getInt("col");
         int value = jsonMessage.getInt("value");
 
+        logger.debug("Cell change: puzzle={}, row={}, col={}, value={}", puzzleId, row, col, value);
+
         Board board = boards.get(puzzleId);
         board.setCell(row, col, value);
         broadcastBoard(puzzleId);
         if (board.isSolved()) {
+            logger.info("Puzzle {} has been solved!", puzzleId);
             broadcastSolvedBoard(puzzleId);
         }
     }
@@ -420,8 +423,7 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(response.toString());
                 } catch (IOException e) {
-                    System.err.println("Error broadcasting incorrect cells: " + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error broadcasting incorrect cells to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
@@ -436,19 +438,21 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(response.toString());
                 } catch (IOException e) {
-                    System.err.println("Error sending updatePuzzleSolved" + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error sending updatePuzzleSolved to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
     }
 
     private void handleSendLeaveRoom(JSONObject jsonMessage) {
-        Player player = players.get(UUID.fromString(jsonMessage.getString("clientId")));
+        UUID clientId = UUID.fromString(jsonMessage.getString("clientId"));
+        Player player = players.get(clientId);
         if (player == null) {
             return;
         }
         int puzzleId = jsonMessage.getInt("puzzleId");
+
+        logger.info("Player {} left puzzle {}", clientId, puzzleId);
 
         player.setCurrentPuzzleId(-1);
         player.setSelectedCol(-1);
@@ -462,11 +466,12 @@ public class WebSocketServer {
 
     private void handleSendIncorrectCellsChange(JSONObject jsonMessage) {
         int puzzleId = jsonMessage.getInt("puzzleId");
+
         Board board = boards.get(puzzleId);
         int row = jsonMessage.getInt("row");
         int col = jsonMessage.getInt("col");
 
-        board.incorrectCellsChange(row, col);
+        board.removeIncorrectCell(new int[]{row, col});
         broadcastIncorrectCells(puzzleId);
     }
 
@@ -485,8 +490,7 @@ public class WebSocketServer {
                 try {
                     currentSession.getBasicRemote().sendText(response.toString());
                 } catch (IOException e) {
-                    System.err.println("Error sending updateElapsedTime" + e.getMessage());
-                    e.printStackTrace();
+                    logger.error("Error sending updateElapsedTime to session {}: {}", currentSession.getId(), e.getMessage(), e);
                 }
             }
         }
