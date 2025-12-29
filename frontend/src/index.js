@@ -6,8 +6,8 @@ import SudokuGame from "./components/SudokuGame";
 import PuzzleSelection from "./components/PuzzleSelection";
 import webSocketManager from "./components/WebSocketManager";
 
-//const wsUrl = "wss://suduoku-java.onrender.com/ws";
-const wsUrl = "ws://localhost:8080/ws";
+const wsUrl = "wss://suduoku-java.onrender.com/ws";
+//const wsUrl = "ws://localhost:8080/ws";
 console.log(`Connecting to WebSocket server at ${wsUrl}`);
 webSocketManager.connect(wsUrl);
 

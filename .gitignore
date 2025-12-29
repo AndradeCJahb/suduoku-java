@@ -4,6 +4,7 @@ frontend/build/
 frontend/node_modules/
 backend-java/target/
 backend-java/sudokugames.db
+backend-java/*.iml
 
 .idea/
 .vscode/

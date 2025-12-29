@@ -1,7 +1,7 @@
 package suduoku;
 
 public class Constants {
-    public static final String DB_URL = "jdbc:sqlite:/sudokugames.db";
+    public static final String DB_URL = "jdbc:sqlite:sudokugames.db";
     public static final String SCRAPER_PATH = "/app/sudoku_scraper/sudoku_scraper.py";
 
     public static final String[] playerNameAdjectives = {
