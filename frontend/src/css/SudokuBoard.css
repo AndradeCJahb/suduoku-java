@@ -1,39 +1,122 @@
+/* Main Sudoku Container */
 .sudoku-container {
-	max-width: fit-content;
-	margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
 }
 
-.finalGrid {
-	display: grid;
-	grid-template-columns: repeat(3, auto);
-	grid-template-rows: repeat(3, auto);
-	border: 4px solid #000000;
-	border-radius: 3px;
+/* 9x9 Board - 3x3 grid of boxes */
+.sudoku-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px;
+  background-color: #000;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  box-sizing: border-box;
 }
 
-.threeGrid {
-	display: grid;
-	border: 1px solid #7c7c7c;
+/* 3x3 Box */
+.box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1px;
+  background-color: #fff;
+  border: 2px solid #000;
 }
 
-.cell,
-.non-editable-cell {
-	width: 40px;
-	height: 40px;
-	text-align: center;
-	border: 1px solid #7c7c7c;
-	font-size: 1.5rem;
-	outline: none;
+/* Individual Cell */
+.cell {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease;
 }
 
-.non-editable-cell {
-	background-color: #d2d2d2;
+
+.cell.non-editable-cell {
+  background-color: #e8e8e8;
+  cursor: default;
 }
 
-.cell:focus {
-	background-color: #ffdf8e;
+.cell.incorrect-cell {
+  background-color: #ffcccc !important;
 }
 
-.incorrect-cell {
-	background-color: #ffcccc !important;
+/* Cell Value Display */
+.cell-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
 }
+
+.non-editable-cell .cell-value {
+  color: #000;
+  font-weight: 900;
+}
+
+/* Candidates Grid - 3x3 within each cell */
+.candidates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1px;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+}
+
+/* Individual Candidate */
+.candidate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: #999;
+  cursor: default;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+.candidate:hover {
+  color: #666;
+}
+
+.candidate.active {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Hidden Input for Value Changes */
+.cell-input {
+  display: none;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .cell {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cell-value {
+    font-size: 1.3rem;
+  }
+
+  .candidate {
+    font-size: 0.5rem;
+  }
+}
+

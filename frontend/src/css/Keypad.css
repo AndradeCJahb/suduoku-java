@@ -92,3 +92,45 @@
 	border-radius: 3px;
 	min-width: 300px; /* Let it size to content */
 }
+
+.mode-toggle {
+	display: flex;
+	gap: 0;
+	margin-top: 15px;
+	padding: 0 20px;
+	box-sizing: border-box;
+	justify-content: center;
+}
+
+.mode-button {
+	flex: 1;
+	max-width: calc(50% - 0px);
+	padding: 15px 24px;
+	font-size: 1rem;
+	font-weight: bold;
+	border: 2px solid #999;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+	color: #333;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin: 0 2px;
+}
+
+.mode-button:hover {
+	background-color: #e8e8e8;
+	border-color: #666;
+}
+
+.mode-button:active {
+	transform: scale(0.98);
+}
+
+.mode-button.active {
+	background-color: #000;
+	border-color: #000;
+	color: #fff;
+	font-weight: 900;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+

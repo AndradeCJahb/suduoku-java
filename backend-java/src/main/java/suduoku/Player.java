@@ -1,12 +1,16 @@
 package suduoku;
 
 import jakarta.websocket.Session;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Random;
 
 import static suduoku.Constants.playerNameNouns;
 import static suduoku.Constants.playerNameAdjectives;
 
+@Getter
+@Setter
 public class Player {
     private Session session;
     private final String name;
@@ -42,45 +46,6 @@ public class Player {
         return color.toString();
     }
 
-    public Session getSession() {
-        return session;
-    }
-    
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public Integer getCurrentPuzzleId() {
-        return currentPuzzleId;
-    }
-
-    public void setCurrentPuzzleId(Integer currentPuzzleId) {
-        this.currentPuzzleId = currentPuzzleId;
-    }
-
-    public int getSelectedRow() {
-        return selectedRow;
-    }
-
-    public void setSelectedRow(int selectedRow) {
-        this.selectedRow = selectedRow;
-    }
-
-    public int getSelectedCol() {
-        return selectedCol;
-    }
-
-    public void setSelectedCol(int selectedCol) {
-        this.selectedCol = selectedCol;
-    }
 
     @Override
     public String toString() {

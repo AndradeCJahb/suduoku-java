@@ -12,20 +12,16 @@ console.log(`Connecting to WebSocket server at ${wsUrl}`);
 webSocketManager.connect(wsUrl);
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<PuzzleSelection />} />
-				<Route path="/puzzle/:puzzleId" element={<SudokuGame />} />
-				<Route path="*" element={<Navigate to="/" />} />
-			</Routes>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PuzzleSelection />} />
+        <Route path="/puzzle/:puzzleId" element={<SudokuGame />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-);
+root.render(<App />);
