@@ -2,11 +2,9 @@
 
 frontend/build/
 frontend/node_modules/
-frontend/*.iml
 
 backend-java/target/
 backend-java/sudokugames.db
-backend-java/*.iml
 
 .idea/
 .vscode/
