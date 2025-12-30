@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import webSocketManager from "../components/WebSocketManager";
+import { WS_URL, logWebSocketConnection } from "../config/wsConfig";
 
 /**
  * Custom hook for WebSocket message handling
@@ -21,9 +22,8 @@ export const useWebSocketMessages = (
   const navigate = useNavigate();
 
   useEffect(() => {
-    const wsUrl = "ws://localhost:8080/ws";
-    console.log(`Connecting to WebSocket at ${wsUrl}`);
-    webSocketManager.connect(wsUrl);
+    logWebSocketConnection();
+    webSocketManager.connect(WS_URL);
 
     const handleMessage = (data) => {
       switch (data.type) {
