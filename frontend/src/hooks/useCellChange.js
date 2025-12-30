@@ -26,15 +26,15 @@ export const useCellChange = (puzzleId, elapsedTimeRef) => {
         webSocketManager.send({
           type: "sendIncorrectCellsUpdate",
           puzzleId: puzzleId,
-          row: col,
-          col: row,
+          row: row,
+          col: col,
         });
 
         webSocketManager.send({
           type: "sendCellChange",
           puzzleId: puzzleId,
-          row: col,
-          col: row,
+          row: row,
+          col: col,
           value: value || 0,
         });
 

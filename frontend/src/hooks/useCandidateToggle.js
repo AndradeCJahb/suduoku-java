@@ -34,16 +34,16 @@ export const useCandidateToggle = (puzzleId) => {
           webSocketManager.send({
             type: "sendCellChange",
             puzzleId: puzzleId,
-            row: col,
-            col: row,
+            row: row,
+            col: col,
             value: 0, // Clear the value
           });
 
           webSocketManager.send({
             type: "sendCandidateToggle",
             puzzleId: puzzleId,
-            row: col,
-            col: row,
+            row: row,
+            col: col,
             candidate: candidate,
           });
 
@@ -67,8 +67,8 @@ export const useCandidateToggle = (puzzleId) => {
         webSocketManager.send({
           type: "sendCandidateToggle",
           puzzleId: puzzleId,
-          row: col,
-          col: row,
+          row: row,
+          col: col,
           candidate: candidate,
         });
 

@@ -28,21 +28,15 @@ export const useWebSocketMessages = (
     const handleMessage = (data) => {
       switch (data.type) {
         case "updatePuzzle":
-          // Transpose the grid data and use server's candidates as authoritative
-          setGridData((currentGridData) => {
-            const updatedGrid = Array.from({ length: 9 }, (_, rowIndex) =>
-              Array.from({ length: 9 }, (_, colIndex) => {
-                const serverCell = data.board[colIndex][rowIndex];
-
-                return {
-                  value: serverCell.value,
-                  isEditable: serverCell.isEditable,
-                  candidates: serverCell.candidates || [],
-                };
-              }),
-            );
-            return updatedGrid;
-          });
+          setGridData(
+            data.board.map((row) =>
+              row.map((cell) => ({
+                value: cell.value,
+                isEditable: cell.isEditable,
+                candidates: cell.candidates || [],
+              })),
+            ),
+          );
           setPuzzleTitle(data.title);
           break;
 
