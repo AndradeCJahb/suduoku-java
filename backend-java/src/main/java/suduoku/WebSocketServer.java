@@ -31,7 +31,6 @@ public class WebSocketServer {
     private static final Map<UUID, Player> players = new ConcurrentHashMap<>();
     private static final Map<Integer, SudokuBoard> boards = new ConcurrentHashMap<>();
 
-    // Handler instances
     private final PuzzleHandler puzzleHandler = new PuzzleHandler();
     private final ChatHandler chatHandler = new ChatHandler(players);
     private final PlayerHandler playerHandler = new PlayerHandler(players);

@@ -1,5 +1,8 @@
 package suduoku.Board;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +10,9 @@ import java.util.Set;
  * Represents a single cell in the Sudoku board.
  * Each cell has a value (1-9, or null for empty) and a set of candidates.
  */
+@Getter
 public class Cell {
+    @Setter
     private Integer value;
     private final boolean isEditable;
     private final Set<Integer> candidates;
@@ -24,27 +29,6 @@ public class Cell {
         this.candidates = new HashSet<>();
     }
 
-    // Getters and Setters
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = (value == 0) ? null : value;
-        // Clear candidates when a value is set
-        if (this.value != null) {
-            this.candidates.clear();
-        }
-    }
-
-    public boolean isEditable() {
-        return isEditable;
-    }
-
-    public Set<Integer> getCandidates() {
-        return candidates;
-    }
-
     /**
      * Toggles a candidate on or off.
      *
@@ -53,11 +37,6 @@ public class Cell {
     public void toggleCandidate(int candidate) {
         if (candidate < 1 || candidate > 9) {
             throw new IllegalArgumentException("Candidate must be between 1 and 9");
-        }
-
-        // Don't allow candidates if cell has a value
-        if (this.value != null) {
-            return;
         }
 
         if (candidates.contains(candidate)) {
@@ -73,24 +52,16 @@ public class Cell {
      * @param candidates The set of candidates to set
      */
     public void setCandidates(Set<Integer> candidates) {
-        if (this.value == null) {
-            this.candidates.clear();
-            this.candidates.addAll(candidates);
-        }
-    }
-
-    /**
-     * Clears all candidates.
-     */
-    public void clearCandidates() {
         this.candidates.clear();
+        this.candidates.addAll(candidates);
     }
 
     /**
-     * Returns whether this cell is empty (no value).
+     * Clears cell candidates and value.
      */
-    public boolean isEmpty() {
-        return this.value == null;
+    public void clearCell() {
+        this.value = null;
+        this.candidates.clear();
     }
 
     @Override

@@ -18,9 +18,11 @@ public class Player {
     private int currentPuzzleId;
     private int selectedRow;
     private int selectedCol;
+    private Random random;
 
     public Player(Session session) {
         this.session = session;
+        this.random = new Random();
         this.name = generateName();
         this.color = generateColor();
         this.currentPuzzleId = -1;
@@ -29,7 +31,6 @@ public class Player {
     }
 
     private String generateName() {
-        Random random = new Random(System.currentTimeMillis());
         int randomIndex = random.nextInt(playerNameAdjectives.length);
         String adjective = playerNameAdjectives[randomIndex];
         String noun = playerNameNouns[randomIndex];
@@ -45,7 +46,6 @@ public class Player {
         }
         return color.toString();
     }
-
 
     @Override
     public String toString() {

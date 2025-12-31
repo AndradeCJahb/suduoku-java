@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,7 +25,9 @@ public class SudokuBoard {
     private String difficulty;
     private Cell[][] board;
     private Cell[][] solution;
-    private List<int[]> incorrectCells;
+
+    @Getter
+    private final List<int[]> incorrectCells;
 
     /**
      * Loads a Sudoku puzzle from the database.
@@ -130,7 +133,6 @@ public class SudokuBoard {
     public void setCell(int row, int col, int value) {
         if (board[row][col].isEditable()) {
             board[row][col].setValue(value);
-            // Update candidates for affected cells
             updateDB();
         }
     }
@@ -143,46 +145,9 @@ public class SudokuBoard {
      * @param candidate The candidate to toggle (1-9)
      */
     public void toggleCandidate(int row, int col, int candidate) {
-        if (board[row][col].isEditable() && board[row][col].isEmpty()) {
+        if (board[row][col].isEditable()) {
             board[row][col].toggleCandidate(candidate);
-            // Persist to database
             updateDB();
-        }
-    }
-
-    /**
-     * Updates candidates for the affected cell and related cells (same row, col, box).
-     *
-     * @param row The row index of the affected cell
-     * @param col The column index of the affected cell
-     */
-    private void updateCandidatesAround(int row, int col) {
-        // Update the cell itself
-        CandidateManager.updateCandidatesForCell(board, row, col);
-
-        // Update cells in the same row
-        for (int j = 0; j < 9; j++) {
-            if (j != col) {
-                CandidateManager.updateCandidatesForCell(board, row, j);
-            }
-        }
-
-        // Update cells in the same column
-        for (int i = 0; i < 9; i++) {
-            if (i != row) {
-                CandidateManager.updateCandidatesForCell(board, i, col);
-            }
-        }
-
-        // Update cells in the same 3x3 box
-        int boxRow = (row / 3) * 3;
-        int boxCol = (col / 3) * 3;
-        for (int i = boxRow; i < boxRow + 3; i++) {
-            for (int j = boxCol; j < boxCol + 3; j++) {
-                if (i != row || j != col) {
-                    CandidateManager.updateCandidatesForCell(board, i, j);
-                }
-            }
         }
     }
 
@@ -190,11 +155,11 @@ public class SudokuBoard {
      * Clears all editable cells.
      */
     public void clearBoard() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j].isEditable()) {
-                    board[i][j].setValue(0);
-                    board[i][j].clearCandidates();
+        for(Cell[] row : board) {
+            for(Cell cell : row) {
+                if(cell.isEditable()) {
+                    cell.setValue(null);
+                    cell.clearCell();
                 }
             }
         }
@@ -237,13 +202,6 @@ public class SudokuBoard {
     }
 
     /**
-     * Gets the list of incorrect cells.
-     */
-    public List<int[]> getIncorrectCells() {
-        return this.incorrectCells;
-    }
-
-    /**
      * Clears the incorrect cells list.
      */
     public void clearIncorrectCells() {
@@ -276,23 +234,6 @@ public class SudokuBoard {
             }
         }
         return true;
-    }
-
-    // Getters
-    public Cell[][] getBoard() {
-        return board;
-    }
-
-    public Cell[][] getSolution() {
-        return solution;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
     }
 }
 

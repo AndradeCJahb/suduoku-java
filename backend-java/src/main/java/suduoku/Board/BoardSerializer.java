@@ -1,8 +1,5 @@
 package suduoku.Board;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Handles serialization and deserialization of the Sudoku board to/from SDX format.
  * SDX format: space-separated tokens where each token is either:

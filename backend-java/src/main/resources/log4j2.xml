@@ -12,7 +12,7 @@
             <AppenderRef ref="Console"/>
         </Root>
 
-        <!-- Specific logger for WebSocket operations -->
+        <!-- WebSocket operations logger -->
         <Logger name="suduoku.WebSocketServer" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>

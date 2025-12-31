@@ -149,7 +149,7 @@ public class BoardHandler {
         String clientIdStr = jsonMessage.getString("clientId");
         int puzzleId = jsonMessage.getInt("puzzleId");
 
-        java.util.UUID clientId = java.util.UUID.fromString(clientIdStr);
+        UUID clientId = UUID.fromString(clientIdStr);
         players.get(clientId).setCurrentPuzzleId(puzzleId);
 
         log.info("Player {} joined puzzle {}", clientId, puzzleId);
