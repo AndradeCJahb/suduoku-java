@@ -103,3 +103,22 @@
 .cell-input {
   display: none;
 }
+
+@media (max-width: 600px) {
+    .cell {
+        width: 35px;
+        height: 35px;
+    }
+
+    .cell-value {
+        font-size: 1.3rem;
+    }
+
+    .candidate {
+        font-size: .5rem;
+    }
+
+    .sudoku-board {
+        width: auto;
+    }
+}

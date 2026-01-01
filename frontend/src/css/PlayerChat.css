@@ -106,3 +106,10 @@
 
 	padding: 0 20px;
 }
+
+@media (max-width: 400px) {
+	.chat-stack {
+		display: none;
+	}
+}
+

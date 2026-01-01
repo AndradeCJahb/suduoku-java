@@ -63,3 +63,9 @@
 	background-color: #e8f0fe;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
+@media (max-width: 400px) {
+    .header {
+        padding: 5px 10px 5px 15px;
+    }
+}

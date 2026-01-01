@@ -14,9 +14,7 @@
 .popup-content {
 	color: #000000;
 	background-color: white;
-	padding-left: 20px;
-	padding-bottom: 20px;
-	padding-right: 20px;
+    padding: 0 20px 20px 20px;
 	border-radius: 3px;
 	max-width: 40%;
 	overflow-y: auto;
@@ -51,4 +49,10 @@
 	color: black;
 	font-size: 1rem;
 	text-align: left;
+}
+
+@media (max-width: 400px) {
+    .popup-content {
+        max-width: 80%;
+    }
 }

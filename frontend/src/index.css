@@ -37,21 +37,6 @@ body {
         box-sizing: border-box;
     }
 
-    .cell {
-        width: 40px;
-        height: 40px;
-    }
 
-    .cell-value {
-        font-size: 1.3rem;
-    }
-
-    .candidate {
-        font-size: .25rem;
-    }
-
-    .filter-container {
-        
-    }
 
 }
