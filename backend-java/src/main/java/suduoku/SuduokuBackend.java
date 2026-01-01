@@ -6,6 +6,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static suduoku.Constants.SCRAPER_PATH;
+
 @Log4j2
 public class SuduokuBackend {
     public static void main(String[] args) {
@@ -31,10 +33,7 @@ public class SuduokuBackend {
     private static void scraperExecution() {
         log.info("Starting sudoku scraper execution");
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                "python", 
-                "/app/sudoku_scraper/sudoku_scraper.py"
-            );
+            ProcessBuilder pb = new ProcessBuilder("python", SCRAPER_PATH);
             pb.inheritIO();
             Process process = pb.start();
             int exitCode = process.waitFor();

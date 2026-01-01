@@ -26,137 +26,32 @@ body {
 	margin: 5px;
 }
 
-/* -------------------- Responsive Styles -------------------- */
-@media (max-width: 900px) {
-	.app-container {
-		flex-direction: column; /* Switch to vertical layout */
-		align-items: center; /* Center align items */
-	}
-
-	.cell,
-	.non-editable-cell {
-		width: 17px;
-		height: 25px;
-
-		text-align: center;
-		border: 1px solid #7c7c7c;
-		font-size: 1.1rem;
-		outline: none;
-		border-radius: 0;
-	}
-
-	.right-section {
-		margin-top: 10px;
-		padding-left: 35px;
-		padding-right: 35px;
-	}
-
-	.controls-container {
-		margin-top: 39px;
-	}
-}
 /* Mobile layout */
 @media (max-width: 400px) {
 	.app-container {
-		flex-direction: column; /* Switch to vertical layout */
-		align-items: center; /* Center align items */
+        grid-template-columns: 1fr;
 	}
 
-	.left-section {
-		flex-direction: column; /* Stack controls and sudoku vertically */
-		margin-left: 0px;
-	}
+    .sudoku-container {
+        order: -1;
+        box-sizing: border-box;
+    }
 
-	.right-section {
-		margin: 0px;
-		margin-top: 10px;
-		width: 100%;
-		padding-left: 25px;
-		padding-right: 25px;
-	}
+    .cell {
+        width: 40px;
+        height: 40px;
+    }
 
-	.controls-container {
-		width: 100%;
-		order: 2;
-		margin: 0px;
-		margin-top: 10px;
-	}
+    .cell-value {
+        font-size: 1.3rem;
+    }
 
-	.chatBox {
-		width: 100%;
-	}
+    .candidate {
+        font-size: .25rem;
+    }
 
-	.chatLog {
-		height: 100px;
-	}
+    .filter-container {
+        
+    }
 
-	.cell,
-	.non-editable-cell {
-		width: 17px;
-		height: 25px;
-
-		text-align: center;
-		border: 1px solid #7c7c7c;
-		font-size: 1.1rem;
-		outline: none;
-		border-radius: 0;
-	}
-
-	.sudokuTitle {
-		text-align: center;
-		margin-left: 0px;
-	}
-
-	.popup-content {
-		max-width: 75%;
-	}
-
-	.filter-container {
-		justify-content: left;
-		margin-left: 20px;
-	}
-
-	.filter-options {
-		width: 100%;
-	}
-
-	.filter-difficulty-button {
-		font-size: 0.7rem;
-	}
-
-	.filter-search input {
-		font-size: 0.7rem;
-	}
-
-	.loading-container {
-		padding-top: 50%;
-	}
-
-	.keypad {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-rows: repeat(4, 1fr);
-
-		max-width: 100%;
-	}
-
-	.keypad-button {
-		font-size: 1rem;
-		cursor: pointer;
-		padding: 15px;
-		text-align: center;
-	}
-
-	.keypad-backspace {
-		grid-column: span 1;
-		background-color: #ffebeb;
-	}
-
-	.clearBoardBtn,
-	.checkSolutionBtn {
-		font-size: 1rem;
-		cursor: pointer;
-		padding: 15px;
-		text-align: center;
-	}
 }

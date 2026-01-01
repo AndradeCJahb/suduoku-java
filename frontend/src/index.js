@@ -5,9 +5,8 @@ import "./index.css";
 import SudokuGame from "./components/SudokuGame";
 import PuzzleSelection from "./components/PuzzleSelection";
 import webSocketManager from "./components/WebSocketManager";
-import { WS_URL, logWebSocketConnection } from "./config/wsConfig";
+import { WS_URL } from "./config/wsConfig";
 
-logWebSocketConnection();
 webSocketManager.connect(WS_URL);
 
 function App() {

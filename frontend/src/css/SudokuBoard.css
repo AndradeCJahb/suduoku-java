@@ -103,20 +103,3 @@
 .cell-input {
   display: none;
 }
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 600px) {
-  .cell {
-    width: 40px;
-    height: 40px;
-  }
-
-  .cell-value {
-    font-size: 1.3rem;
-  }
-
-  .candidate {
-    font-size: 0.5rem;
-  }
-}
-

@@ -3,7 +3,7 @@
 
 1. Install `mvn`, `docker`,
     - Docker v28.0.4 used
-    - Apache Maven v3.9.9 w/ java 21 used
+    - Apache Maven v3.9.9 w/ java 25 used
 2. Running via Maven
     -   `cd backend-java`
     -   `mvn clean package`
