@@ -96,7 +96,6 @@
 .mode-toggle {
 	display: flex;
 	gap: 0;
-	margin-top: 15px;
 	padding: 0 20px;
 	box-sizing: border-box;
 	justify-content: center;
@@ -114,7 +113,7 @@
 	color: #333;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	margin: 0 2px;
+	margin: 5px;
 }
 
 .mode-button:hover {
@@ -138,10 +137,6 @@
     .keypad-button {
         padding: 15px;
         font-size: 1rem;
-    }
-
-    .mode-toggle {
-        margin-top: 5px;
     }
 }
 
