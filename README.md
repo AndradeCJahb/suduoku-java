@@ -8,12 +8,11 @@ Hosted at https://suduoku.vercel.app/.
 
 ## Features
 
-- 🎮 Real-time collaborative puzzle solving
-- 💬 Live chat with other players
-- 🧩 Multiple puzzles with varying difficulty levels
-- 🔄 Automatic synchronization across all connected clients
-- ✅ Solution verification and error highlighting
-- 🎨 Unique player colors and auto-generated names
+- Real-time collaborative puzzle solving
+- Live chat with other players
+- Synchronization across all connected clients
+- Solution verification and error highlighting
+
 
 ## Contributing
 
