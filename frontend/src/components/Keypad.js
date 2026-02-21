@@ -65,18 +65,18 @@ function Keypad({
         </div>
       </div>
       <div className="mode-toggle">
-        <button
+        <div
           className={`mode-button normal-mode ${!candidateMode ? "active" : ""}`}
           onClick={handleCandidateModeToggle}
         >
           Normal
-        </button>
-        <button
+        </div>
+        <div
           className={`mode-button candidate-mode ${candidateMode ? "active" : ""}`}
           onClick={handleCandidateModeToggle}
         >
           Candidate
-        </button>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import "../css/SudokuGame.css";
+
 import Header from "./Header";
-import "../index.css";
 import SudokuBoard from "./SudokuBoard";
 import PlayerChat from "./PlayerChat";
 import Keypad from "./Keypad";
@@ -19,7 +21,6 @@ import { usePuzzleInitialization } from "../hooks/usePuzzleInitialization";
 import { useUIInteractions } from "../hooks/useUIInteractions";
 
 import { getOrCreateClientId } from "../utils/clientIdManager";
-
 /**
  * SudokuGame Component
  * Main game interface with refactored logic using custom hooks
@@ -28,41 +29,36 @@ function SudokuGame() {
   const { puzzleId: urlPuzzleId } = useParams();
   const [puzzleId] = useState(parseInt(urlPuzzleId) || null);
 
-  // State management
   const [puzzleTitle, setPuzzleTitle] = useState("Loading puzzle...");
   const [gridData, setGridData] = useState(
     Array(9).fill(
       Array(9).fill({ value: "", isEditable: true, candidates: [] }),
     ),
   );
+
+  const [clientInfo, setClientInfo] = useState({ name: "", color: "" });
   const [players, setPlayers] = useState([]);
   const [playerPositions, setPlayerPositions] = useState([]);
+
   const [focusedCell, setFocusedCell] = useState({ row: 5, col: 5 });
-  const [clientInfo, setClientInfo] = useState({ name: "", color: "" });
+
   const [chatInput, setChatInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
+
   const [incorrectCells, setIncorrectCells] = useState([]);
   const [puzzleSolved, setPuzzleSolved] = useState(false);
   const [candidateMode, setCandidateMode] = useState(false);
 
-  // Refs for state synchronization
   const gridDataRef = useRef(gridData);
   const focusedCellRef = useRef(focusedCell);
   const chatLogRef = useRef(null);
-
-  // Sync refs with state
-  React.useEffect(() => {
-    gridDataRef.current = gridData;
-  }, [gridData]);
 
   React.useEffect(() => {
     focusedCellRef.current = focusedCell;
   }, [focusedCell]);
 
-  // Client ID
   const clientId = getOrCreateClientId();
 
-  // Custom hooks for business logic
   const { elapsedTime, setElapsedTime, elapsedTimeRef } = useElapsedTime(
     puzzleSolved,
     puzzleId,
@@ -83,10 +79,8 @@ function SudokuGame() {
     focusedCellRef,
     gridDataRef,
     candidateMode,
-    (row, col, value) =>
-      handleCellChange(row, col, value, gridData, setGridData),
-    (row, col, candidate) =>
-      handleCandidateToggle(row, col, candidate, gridData, setGridData),
+    (row, col, value) => handleCellChange(row, col, value),
+    (row, col, candidate) => handleCandidateToggle(row, col, candidate),
     setFocusedCell,
     setCandidateMode,
     focusedCell,
@@ -106,10 +100,7 @@ function SudokuGame() {
     setElapsedTime,
   );
 
-  // Player position broadcasting
   usePlayerPosition(focusedCell, clientId, puzzleId);
-
-  // Puzzle initialization
   usePuzzleInitialization(puzzleId, clientId);
 
   // Chat scroll management
@@ -121,7 +112,7 @@ function SudokuGame() {
 
   // Handle board clearing with proper state updates
   const handleClearBoardWrapper = () => {
-    handleClearBoard(gridData, setGridData, setIncorrectCells, setPuzzleSolved);
+    handleClearBoard();
   };
 
   // Handle keypad number click with state
@@ -160,13 +151,11 @@ function SudokuGame() {
           puzzleTitle={puzzleTitle}
           gridData={gridData}
           handleCellChange={handleCellChange}
-          handleCandidateToggle={handleCandidateToggle}
           incorrectCells={incorrectCells}
           playerPositions={playerPositions}
           setFocusedCell={setFocusedCell}
           clientId={clientId}
           candidateMode={candidateMode}
-          focusedCell={focusedCell}
         />
 
         <PlayerChat

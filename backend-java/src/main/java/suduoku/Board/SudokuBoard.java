@@ -194,7 +194,7 @@ public class SudokuBoard {
             for (int j = 0; j < 9; j++) {
                 Integer boardValue = board[i][j].getValue();
                 Integer solutionValue = solution[i][j].getValue();
-                if (boardValue != null && !boardValue.equals(solutionValue)) {
+                if ((boardValue != null && boardValue != 0) && !boardValue.equals(solutionValue)) {
                     incorrectCells.add(new int[] { i, j });
                 }
             }

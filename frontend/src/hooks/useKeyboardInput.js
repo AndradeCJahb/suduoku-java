@@ -17,62 +17,35 @@ export const useKeyboardInput = (
   const handleKeyboardInput = useCallback(
     (event) => {
       const { row, col } = focusedCellRef.current;
-      const currentCell = gridDataRef.current[row]?.[col];
 
-      // Check if focus is in chat input
       const isChatInput =
         event.target?.tagName === "INPUT" ||
         event.target?.tagName === "TEXTAREA";
 
-      // Handle Shift key to toggle candidate mode (only if not in chat)
       if (event.key === "Shift" && !isChatInput) {
         setCandidateMode((prev) => !prev);
         event.preventDefault();
         return;
       }
 
-      // Handle number keys (1-9) (only if not in chat)
       if (/^[1-9]$/.test(event.key) && !isChatInput) {
-        if (currentCell?.isEditable) {
-          if (candidateMode) {
-            // Candidate mode: toggle candidate
-            handleCandidateToggle(
-              row,
-              col,
-              parseInt(event.key),
-              gridDataRef.current,
-              (setGridData) => {},
-            );
-          } else {
-            // Normal mode: set cell value
-            handleCellChange(
-              row,
-              col,
-              event.key,
-              gridDataRef.current,
-              (setGridData) => {},
-            );
-          }
-          event.preventDefault();
+        if (candidateMode) {
+          handleCandidateToggle(row, col, parseInt(event.key));
+        } else {
+          handleCellChange(row, col, event.key);
         }
+        event.preventDefault();
+
         return;
       }
 
       // Handle backspace/delete (only for sudoku board, not chat)
       if (event.key === "Backspace" || event.key === "Delete") {
         if (isChatInput) {
-          return; // Allow backspace to work in chat input
+          return;
         }
-        if (currentCell?.isEditable) {
-          handleCellChange(
-            row,
-            col,
-            "",
-            gridDataRef.current,
-            (setGridData) => {},
-          );
-          event.preventDefault();
-        }
+        handleCellChange(row, col, "");
+        event.preventDefault();
         return;
       }
 
@@ -101,11 +74,12 @@ export const useKeyboardInput = (
       }
     },
     [
-      candidateMode,
-      handleCellChange,
-      handleCandidateToggle,
-      setFocusedCell,
+      focusedCellRef,
       setCandidateMode,
+      candidateMode,
+      handleCandidateToggle,
+      handleCellChange,
+      setFocusedCell,
     ],
   );
 

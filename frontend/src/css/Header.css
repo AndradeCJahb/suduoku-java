@@ -44,7 +44,6 @@
 }
 
 .header-info {
-	font: "Courier", monospace;
 	font-size: 1rem;
 	color: rgb(112, 155, 208);
 	margin-right: 20px;
@@ -62,6 +61,15 @@
 .header-info:hover {
 	background-color: #e8f0fe;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sudoku-title {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
 }
 
 @media (max-width: 400px) {

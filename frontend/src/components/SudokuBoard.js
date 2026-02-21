@@ -28,9 +28,7 @@ function Cell({
   setFocusedCell,
   clientId,
   onValueChange,
-  onCandidateToggle,
   candidateMode,
-  focusedCell,
 }) {
   const handleValueChange = (event) => {
     const inputValue = event.target.value.slice(-1);
@@ -110,9 +108,7 @@ function Box({
   setFocusedCell,
   clientId,
   onCellChange,
-  onCandidateToggle,
   candidateMode,
-  focusedCell,
 }) {
   const startRow = boxRow * 3;
   const startCol = boxCol * 3;
@@ -142,9 +138,7 @@ function Box({
               setFocusedCell={setFocusedCell}
               clientId={clientId}
               onValueChange={onCellChange}
-              onCandidateToggle={onCandidateToggle}
               candidateMode={candidateMode}
-              focusedCell={focusedCell}
             />
           );
         }),
@@ -160,13 +154,11 @@ function Box({
 function SudokuBoard({
   gridData,
   handleCellChange,
-  handleCandidateToggle,
   incorrectCells,
   playerPositions,
   setFocusedCell,
   clientId,
   candidateMode,
-  focusedCell,
 }) {
   // Extract 3x3 box data from the 9x9 grid
   const getBoxData = (boxRow, boxCol) => {
@@ -179,26 +171,22 @@ function SudokuBoard({
 
   return (
     <div className="sudoku-container">
-      <div className="sudoku-board">
-        {Array.from({ length: 3 }, (_, boxRow) =>
-          Array.from({ length: 3 }, (_, boxCol) => (
-            <Box
-              key={`box-${boxRow}-${boxCol}`}
-              boxData={getBoxData(boxRow, boxCol)}
-              boxRow={boxRow}
-              boxCol={boxCol}
-              incorrectCells={incorrectCells}
-              playerPositions={playerPositions}
-              setFocusedCell={setFocusedCell}
-              clientId={clientId}
-              onCellChange={handleCellChange}
-              onCandidateToggle={handleCandidateToggle}
-              candidateMode={candidateMode}
-              focusedCell={focusedCell}
-            />
-          )),
-        )}
-      </div>
+      {Array.from({ length: 3 }, (_, boxRow) =>
+        Array.from({ length: 3 }, (_, boxCol) => (
+          <Box
+            key={`box-${boxRow}-${boxCol}`}
+            boxData={getBoxData(boxRow, boxCol)}
+            boxRow={boxRow}
+            boxCol={boxCol}
+            incorrectCells={incorrectCells}
+            playerPositions={playerPositions}
+            setFocusedCell={setFocusedCell}
+            clientId={clientId}
+            onCellChange={handleCellChange}
+            candidateMode={candidateMode}
+          />
+        )),
+      )}
     </div>
   );
 }

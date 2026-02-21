@@ -106,7 +106,7 @@ function PuzzleSelection() {
         {!loadedPuzzles ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
-            <p className="loading-message">Spinning Up Database...</p>
+            <p className="loading-message">Spinning Up Lambda...</p>
           </div>
         ) : (
           <div className="puzzle-grid">

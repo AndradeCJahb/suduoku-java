@@ -64,7 +64,6 @@ export const useWebSocketMessages = (
           break;
 
         case "updateElapsedTime":
-          // Server elapsed time is authoritative - sync local timer
           setElapsedTime(data.elapsedTime);
           break;
 

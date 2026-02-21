@@ -7,7 +7,6 @@ import webSocketManager from "../components/WebSocketManager";
  */
 export const usePuzzleInitialization = (puzzleId, clientId) => {
   useEffect(() => {
-    // Send initial messages
     webSocketManager.send({ type: "fetchIdentity", clientId });
     webSocketManager.send({ type: "fetchPuzzle", clientId, puzzleId });
     webSocketManager.send({ type: "fetchChat", puzzleId });

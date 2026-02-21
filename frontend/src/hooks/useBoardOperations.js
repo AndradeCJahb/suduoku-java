@@ -13,29 +13,12 @@ export const useBoardOperations = (puzzleId) => {
     });
   }, [puzzleId]);
 
-  const handleClearBoard = useCallback(
-    (gridData, setGridData, setIncorrectCells, setPuzzleSolved) => {
-      // Create a new grid with only locked cells
-      const clearedGrid = gridData.map((row) =>
-        row.map((cell) => ({
-          ...cell,
-          value: cell.isEditable ? "" : cell.value,
-          candidates: cell.isEditable ? [] : cell.candidates,
-        })),
-      );
-
-      // Update local state
-      setGridData(clearedGrid);
-      setIncorrectCells([]);
-      setPuzzleSolved(false);
-
-      webSocketManager.send({
-        type: "sendClearBoard",
-        puzzleId: puzzleId,
-      });
-    },
-    [puzzleId],
-  );
+  const handleClearBoard = useCallback(() => {
+    webSocketManager.send({
+      type: "sendClearBoard",
+      puzzleId: puzzleId,
+    });
+  }, [puzzleId]);
 
   return { handleCheckSolution, handleClearBoard };
 };

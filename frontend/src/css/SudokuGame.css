@@ -1,0 +1,11 @@
+.app-container {
+    display: grid;
+    grid-template-columns: .8fr 1fr 1fr;
+    justify-content: space-between;
+}
+
+@media (max-width: 400px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+}

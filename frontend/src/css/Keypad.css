@@ -1,20 +1,17 @@
 .keypad {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	padding: 0 20px; /* Add some internal padding */
-	box-sizing: border-box; /* Make sure padding doesn't increase size */
+	box-sizing: border-box;
 }
 
 .keypad-button {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	font: "Courier", monospace;
 	background-color: #efefef;
 	border-radius: 3px;
 	font-size: 1.2rem;
 	font-weight: bold;
 	cursor: pointer;
-	margin: 5px;
+	margin: 0 5px 10px 5px;
 	padding: 25px;
 	text-align: center;
 	transition:
@@ -89,54 +86,50 @@
 }
 
 .controls-container {
-	border-radius: 3px;
-	min-width: 300px; /* Let it size to content */
+    margin: 0 20px;
 }
 
 .mode-toggle {
 	display: flex;
-	gap: 0;
-	padding: 0 20px;
 	box-sizing: border-box;
-	justify-content: center;
+    border-radius: 3px;
+    border: 2px solid #999;
+    margin: 0 5px 5px 5px;
+    overflow: hidden;
 }
 
 .mode-button {
 	flex: 1;
-	max-width: calc(50% - 0px);
-	padding: 15px 24px;
-	font-size: 1rem;
+	padding: 25px;
+	font-size: 1.2rem;
 	font-weight: bold;
-	border: 2px solid #999;
-	border-radius: 3px;
-	background-color: #f5f5f5;
-	color: #333;
+    text-align: center;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	margin: 5px;
 }
 
 .mode-button:hover {
 	background-color: #e8e8e8;
-	border-color: #666;
-}
-
-.mode-button:active {
-	transform: scale(0.98);
 }
 
 .mode-button.active {
 	background-color: #000;
-	border-color: #000;
 	color: #fff;
-	font-weight: 900;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 400px) {
     .keypad-button {
         padding: 15px;
         font-size: 1rem;
+    }
+
+    .mode-button {
+        font-size: 1rem;
+        padding: 15px;
+    }
+
+    .controls-container {
+        margin-top: 10px;
     }
 }
 

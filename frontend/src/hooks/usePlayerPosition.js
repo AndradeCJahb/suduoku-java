@@ -7,7 +7,6 @@ import webSocketManager from "../components/WebSocketManager";
  */
 export const usePlayerPosition = (focusedCell, clientId, puzzleId) => {
   useEffect(() => {
-    // Broadcast the focused cell position to other players
     webSocketManager.send({
       type: "sendPlayerPosition",
       position: { row: focusedCell.row, col: focusedCell.col },

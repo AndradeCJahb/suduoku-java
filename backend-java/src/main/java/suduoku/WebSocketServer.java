@@ -98,6 +98,8 @@ public class WebSocketServer {
             case "sendChat":
                 chatHandler.sendChat(jsonMessage);
                 break;
+
+            // Board operations
             case "sendCellChange":
                 boardHandler.handleCellChange(jsonMessage);
                 break;

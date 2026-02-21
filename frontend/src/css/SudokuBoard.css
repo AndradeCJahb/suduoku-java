@@ -1,23 +1,13 @@
-/* Main Sudoku Container */
-.sudoku-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-height: 0;
-}
-
 /* 9x9 Board - 3x3 grid of boxes */
-.sudoku-board {
+.sudoku-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 2px;
-  padding: 4px;
   background-color: #000;
-  border-radius: 5px;
+  border-radius: 3px;
+  border: 4px solid #000;
   width: 100%;
-  height: 100%;
   aspect-ratio: 1;
   box-sizing: border-box;
 }
@@ -29,7 +19,6 @@
   grid-template-rows: repeat(3, 1fr);
   gap: 1px;
   background-color: #fff;
-  border: 2px solid #000;
 }
 
 /* Individual Cell */
@@ -118,7 +107,9 @@
         font-size: .5rem;
     }
 
-    .sudoku-board {
-        width: auto;
+    .sudoku-container {
+        order: -1;
+        width: fit-content;
+        margin: 0 auto;
     }
 }
